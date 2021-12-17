@@ -1,2 +1,2 @@
-# riemann-sum-py
-Visualization of Riemann Sums
+# equation-visualizer-py
+Visualization of Equations
