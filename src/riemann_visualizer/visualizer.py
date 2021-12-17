@@ -54,10 +54,19 @@ class Visualizer:
             # output = output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start)
             return self.height - (self.height + ((0 - self.height) / (self.top - self.bottom)) * (y - self.bottom))
 
+        list_of_points = []
         points: List[Tuple[int, float]] = [(0, map(self.left))]
         for i in range(1,self.width):
             x = self.left + (dx*i)
-            point: Tuple[int, float] = (i, map(x))
+            y = map(x)
+            # If undefined...
+            if abs(y - points[-1][1]) > self.height * 4:
+                list_of_points.append(points)
+                points = []
+            point: Tuple[int, float] = (i, y)
             points.append(point)
+        list_of_points.append(points)
 
-        pygame.draw.lines(self.screen, self.color, False, points, 1)
+        for points in list_of_points:
+            if(len(points) >= 2):
+                pygame.draw.lines(self.screen, self.color, False, points, 1)

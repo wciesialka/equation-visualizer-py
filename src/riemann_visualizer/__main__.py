@@ -1,12 +1,13 @@
 import pygame
 import riemann_visualizer.visualizer as vis
+from math import tan
 
 def main():
     pygame.init()
 
     screen = pygame.display.set_mode([900, 900])
 
-    eq = vis.RiemannSum(lambda x: x ** 2, (-2, 2), (-2, 2))
+    eq = vis.RiemannSum(lambda x: tan(x), (-3.14, 3.14), (-1, 1))
     visualizer = vis.Visualizer(eq, screen)
 
     running = True
