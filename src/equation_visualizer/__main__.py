@@ -1,5 +1,5 @@
 import pygame
-import riemann_visualizer.visualizer as vis
+import equation_visualizer.visualizer as vis
 from math import log, sin
 
 def main():
@@ -10,7 +10,7 @@ def main():
     domain = [-1, 1]
     range = [-1, 1]
 
-    eq = vis.RiemannSum(lambda x: log(x), domain.copy(), range.copy())
+    eq = vis.Equation(lambda x: log(x), domain.copy(), range.copy())
     visualizer = vis.Visualizer(eq, screen)
 
     running = True

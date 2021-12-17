@@ -1,10 +1,10 @@
-'''Riemann Sum visualization module.'''
+'''Equation visualization module.'''
 
 from typing import Callable, Tuple, List
 import pygame
 import logging
 
-class RiemannSum:
+class Equation:
 
     def __init__(self, f:Callable[[float], float], domain: Tuple[int, int], range: Tuple[int, int]):
         self.domain = domain
@@ -20,7 +20,7 @@ class RiemannSum:
 
 class Visualizer:
 
-    def __init__(self, equation: RiemannSum, screen: pygame.Surface, *, color: Tuple[int, int, int] = (0, 0, 0)):
+    def __init__(self, equation: Equation, screen: pygame.Surface, *, color: Tuple[int, int, int] = (0, 0, 0)):
         pygame.font.init()
         self.font = pygame.font.SysFont("Courier New", 12)
         self.equation = equation
