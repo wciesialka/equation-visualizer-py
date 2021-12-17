@@ -60,7 +60,7 @@ class Visualizer:
             x = self.left + (dx*i)
             y = map(x)
             # If undefined...
-            if abs(y - points[-1][1]) > self.height * 4:
+            if abs(y) > self.height * 4:
                 list_of_points.append(points)
                 points = []
             point: Tuple[int, float] = (i, y)
