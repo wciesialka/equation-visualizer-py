@@ -210,3 +210,6 @@ class TokenStream:
             return value
         else:
             raise StopIteration
+
+    def __str__(self):
+        return "".join(self.expression)
