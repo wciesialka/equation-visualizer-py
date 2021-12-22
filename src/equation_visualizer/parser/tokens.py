@@ -189,7 +189,7 @@ class TokenBuilder:
     def build_x(self):
         return VariableToken(self._stack)
 
-TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|\(|\)|\^|tan|cos|sin|log|pi|e|x")
+TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|/|\(|\)|\^|tan|cos|sin|log|pi|e|x")
 
 class TokenStream:
 
