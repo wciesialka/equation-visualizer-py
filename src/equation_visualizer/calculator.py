@@ -77,7 +77,7 @@ class Calculator:
         while len(stack) > 0:
             self.expression.append(stack.pop())
 
-    def calculate(self, *, x: float) -> float:
+    def calculate(self, /, x: float) -> float:
         if len(self.expression) == 0:
             self.infix_to_postfix()
 

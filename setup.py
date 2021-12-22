@@ -9,12 +9,12 @@ REQUIREMENTS = (THIS_DIRECTORY / "requirements.txt").read_text().split('\n')[:-1
 LONG_DESCRIPTION = (THIS_DIRECTORY / "README.md").read_text()
 
 CONTENT = {
-    "name": "riemann_visualizer",
+    "name": "equation_visualizer",
     "version": "1.0.0",
     "author": "Willow Ciesialka",
     "author_email": "wciesialka@gmail.com",
     "url": "https://github.com/wciesialka/riemann-sum-py",
-    "description": "Riemann Sum visualizer.",
+    "description": "Equation visualizer.",
     "long_description": LONG_DESCRIPTION,
     "long_description_content_type": "text/markdown",
     "license": "GPL-3.0",
