@@ -6,11 +6,18 @@ from math import e, pi, sin, cos, tan, log10
 class Token(ABC):
 
     def __init__(self, stack: List):
-        self.__stack = stack
+        self._stack = stack
 
     @abstractmethod
     def execute(self):
         pass
+
+    @property
+    def precedence(self):
+        try:
+            return self.__class__.PRECEDENCE
+        except: # If value isn't set
+            return -1
 
 class OpenToken(Token):
 
@@ -22,6 +29,11 @@ class CloseToken(Token):
     def execute(self):
         pass
 
+class VariableToken(Token):
+
+    def execute(self, value):
+        self._stack.append(value)
+
 class ValueToken(Token):
 
     def __init__(self, stack: List, value: float):
@@ -29,7 +41,7 @@ class ValueToken(Token):
         self.__value = value
 
     def execute(self):
-        self.__stack.append(self.__value)
+        self._stack.append(self.__value)
 
 class PiToken(ValueToken):
 
@@ -48,32 +60,42 @@ class BinaryToken(Token):
         pass
 
     def execute(self):
-        b = self.__stack.pop()
-        a = self.__stack.pop()
+        b = self._stack.pop()
+        a = self._stack.pop()
         result = self.operation(a,b)
-        self.__stack.append(result)
+        self._stack.append(result)
 
 class AddToken(BinaryToken):
+
+    PRECEDENCE = 1
 
     def operation(self, a, b):
         return a + b
         
 class SubtractToken(BinaryToken):
 
+    PRECEDENCE = 1
+
     def operation(self, a, b):
         return a - b
 
 class MultiplyToken(BinaryToken):
+
+    PRECEDENCE = 2
 
     def operation(self, a, b):
         return a * b
 
 class DivideToken(BinaryToken):
 
+    PRECEDENCE = 2
+
     def operation(self, a, b):
         return a / b
 
 class PowerToken(BinaryToken):
+
+    PRECEDENCE = 3
 
     def operation(self, a, b):
         return a ** b
@@ -85,26 +107,34 @@ class UnaryToken(Token):
         pass
 
     def execute(self):
-        a = self.__stack.pop()
+        a = self._stack.pop()
         result = self.operation(a)
-        self.__stack.append(result)
+        self._stack.append(result)
 
 class SinToken(UnaryToken):
+
+    PRECEDENCE = 2
 
     def operation(self, a):
         return sin(a)
 
 class CosToken(UnaryToken):
 
+    PRECEDENCE = 2
+
     def operation(self, a):
         return cos(a)
 
 class TanToken(UnaryToken):
 
+    PRECEDENCE = 2
+
     def operation(self, a):
         return tan(a)
 
 class LogToken(UnaryToken):
+
+    PRECEDENCE = 2
 
     def operation(self, a):
         return log10(a)
@@ -112,90 +142,71 @@ class LogToken(UnaryToken):
 class TokenBuilder:
 
     def __init__(self, stack: List):
-        self.__stack = stack
+        self._stack = stack
 
     def build_value(self, value: float):
-        return ValueToken(self.__stack, value)
+        return ValueToken(self._stack, value)
 
     def build_add(self):
-        return AddToken(self.__stack)
+        return AddToken(self._stack)
 
     def build_subtract(self):
-        return SubtractToken(self.__stack)
+        return SubtractToken(self._stack)
 
     def build_multiply(self):
-        return MultiplyToken(self.__stack)
+        return MultiplyToken(self._stack)
 
     def build_divide(self):
-        return DivideToken(self.__stack)
+        return DivideToken(self._stack)
 
     def build_power(self):
-        return PowerToken(self.__stack)
+        return PowerToken(self._stack)
 
     def build_pi(self):
-        return PiToken(self.__stack)
+        return PiToken(self._stack)
 
     def build_e(self):
-        return EulerToken(self.__stack)
+        return EulerToken(self._stack)
 
     def build_sin(self):
-        return SinToken(self.__stack)
+        return SinToken(self._stack)
 
     def build_cos(self):
-        return CosToken(self.__stack)
+        return CosToken(self._stack)
 
     def build_tan(self):
-        return TanToken(self.__stack)
+        return TanToken(self._stack)
 
     def build_log(self):
-        return LogToken(self.__stack)
+        return LogToken(self._stack)
 
     def build_open(self):
-        return OpenToken(self.__stack)
+        return OpenToken(self._stack)
 
     def build_close(self):
-        return CloseToken(self.__stack)
+        return CloseToken(self._stack)
 
-TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|\(|\)|\^|tan|cos|sin|log|pi|e")
+    def build_x(self):
+        return VariableToken(self._stack)
 
-def tokenize(expression: str, stack: List[float]) -> List[Token]:
-    '''Tokenize a string.
-    
-    :param expression: String to tokenize.
-    :type expression: str
-    :returns: List of tokens
-    :rtype: list(Token)'''
+TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|\(|\)|\^|tan|cos|sin|log|pi|e|x")
 
-    builder: TokenBuilder = TokenBuilder(stack)
+class TokenStream:
 
-    REPRESENTATIONS: Dict[str, Token] = {
-        "+": builder.build_add,
-        "-": builder.build_subtract,
-        "*": builder.build_multiply,
-        "/": builder.build_divide,
-        "^": builder.build_power,
-        "pi": builder.build_pi,
-        "e": builder.build_e,
-        "sin": builder.build_sin,
-        "cos": builder.build_cos,
-        "tan": builder.build_tan,
-        "log": builder.build_log,
-        "(": builder.build_open,
-        ")": builder.build_close
-    }
+    def __init__(self, expression: str):
+        self.expression: List[str] = TOKEN_REGEX.findall(expression)
+        self.i = 0
 
-    matches: List = TOKEN_REGEX.findall(expression)
-    tokens: List[Token] = []
+    def reset(self):
+        self.i = 0
 
-    for match in matches:
-        if match in REPRESENTATIONS:
-            tokens.append(REPRESENTATIONS[match]())
+    def __iter__(self): 
+        return self
+
+    def __next__(self):
+        if self.i < len(self.expression):
+            value = self.expression[self.i]
+            self.i += 1
+            return value
         else:
-            try:
-                x = float(match)
-            except:
-                raise TypeError(f"Invalid Token \"{match}\"")
-            else:
-                tokens.append(builder.build_value(x))
-
-    return (tokens, matches)
+            raise StopIteration
