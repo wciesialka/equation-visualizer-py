@@ -75,7 +75,6 @@ class Visualizer:
         list_of_points = []
         points: List[Tuple[int, float]] = []
         for i in range(0,self.width):
-            logging.debug(i)
             # Get X and Y
             x = self.left + (dx*i)
             y = map(x)
@@ -99,7 +98,9 @@ class Visualizer:
 
     def draw_text(self):
 
-        domain_text = self.font.render(f'Domain: [{self.left}, {self.right}]', True, (0, 0, 0), (255, 255, 255))
-        range_text = self.font.render(f'Range: [{self.bottom}, {self.top}]', True, (0, 0, 0), (255, 255, 255))
-        self.screen.blit(domain_text, (0, 0))
-        self.screen.blit(range_text, (0, 12))
+        domain_text = self.font.render(f'Domain: [{self.left:1.2f}, {self.right:1.2f}]', True, (0, 0, 0), (255, 255, 255))
+        range_text = self.font.render(f'Range: [{self.bottom:1.2f}, {self.top:1.2f}]', True, (0, 0, 0), (255, 255, 255))
+        eq_text = self.font.render(f"Equation: {self.equation.calculator.stream}",  True, (0, 0, 0), (255, 255, 255))
+        self.screen.blit(domain_text, (0, 12))
+        self.screen.blit(range_text, (0, 24))
+        self.screen.blit(eq_text, (0, 0))

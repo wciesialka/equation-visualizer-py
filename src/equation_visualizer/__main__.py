@@ -9,7 +9,7 @@ def parse_args() -> argparse.Namespace:
 
     :returns: Parsed arguments.
     :rtype; argparse.Namespace'''
-    parser = argparse.ArgumentParser("eqvis",description="Visualize an equation.")
+    parser = argparse.ArgumentParser("veq",description="Visualize an equation.")
     parser.add_argument("equation", type=str.lower)
 
     return parser.parse_args()
@@ -39,7 +39,7 @@ def main():
                 if event.y != 0:
                     eq.zoom(-event.y)
             elif event.type == pygame.MOUSEMOTION:
-                # If LMB is down...
+                # If LMB is /bin/python3down...
                 if event.buttons[0] == 1:
                     rel = [x/100 for x in event.rel]
                     eq.domain[0] -= rel[0]
