@@ -19,6 +19,11 @@ CONTENT = {
     "long_description_content_type": "text/markdown",
     "license": "GPL-3.0",
     "packages": find_packages(where="src"),
+    "entry_points": {
+        'console_scripts': [
+            'eqvis = equation_visualizer.__main__:main'
+        ]
+    },
     "classifiers": [
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Programming Language :: Python :: 3",

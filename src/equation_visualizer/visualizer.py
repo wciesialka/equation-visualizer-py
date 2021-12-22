@@ -4,12 +4,18 @@ from typing import Callable, Tuple, List
 import pygame
 import logging
 
+from equation_visualizer.calculator import Calculator
+
 class Equation:
 
-    def __init__(self, f:Callable[[float], float], domain: Tuple[int, int], range: Tuple[int, int]):
+    def __init__(self, calculator: Calculator, domain: Tuple[int, int], range: Tuple[int, int]):
         self.domain = domain
         self.range = range
-        self.f = f
+        self.calculator = calculator
+        self.calculator.infix_to_postfix()
+
+    def f(self, x):
+        self.calculator.calculate(x)
 
     def zoom(self, by):
         if self.range[0] - by/2 < self.range[1] + by/2 and self.domain[0] - by/2 < self.domain[1] + by/2:
@@ -35,9 +41,8 @@ class Visualizer:
     def right(self):
         return self.equation.domain[1]
 
-    @property
-    def f(self):
-        return self.equation.f
+    def f(self, x):
+        return self.equation.f(x)
 
     @property
     def width(self):

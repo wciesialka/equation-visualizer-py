@@ -1,7 +1,7 @@
 import re
 from abc import ABC, abstractmethod
 from typing import List, Dict
-from math import e, pi, sin, cos, tan, log10
+from math import e, pi, sin, cos, tan, log
 
 class Token(ABC):
 
@@ -137,7 +137,7 @@ class LogToken(UnaryToken):
     PRECEDENCE = 2
 
     def operation(self, a):
-        return log10(a)
+        return log(a)
 
 class TokenBuilder:
 
