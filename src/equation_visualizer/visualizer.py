@@ -14,9 +14,6 @@ class Equation:
         self.calculator = calculator
         self.calculator.infix_to_postfix()
 
-    def f(self, x):
-        self.calculator.calculate(x)
-
     def zoom(self, by):
         if self.range[0] - by/2 < self.range[1] + by/2 and self.domain[0] - by/2 < self.domain[1] + by/2:
             self.range[0] -=   by/2
@@ -66,7 +63,7 @@ class Visualizer:
 
         def map(x):
             try:
-                y = self.f(x)
+                y = self.equation.calculator.calculate(x)
             except:
                 return None # Error
             else:
@@ -78,6 +75,8 @@ class Visualizer:
         list_of_points = []
         points: List[Tuple[int, float]] = []
         for i in range(0,self.width):
+            logging.debug(i)
+            # Get X and Y
             x = self.left + (dx*i)
             y = map(x)
             # If undefined...

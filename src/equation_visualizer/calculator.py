@@ -81,6 +81,8 @@ class Calculator:
         if len(self.expression) == 0:
             self.infix_to_postfix()
 
+        self.stack.clear()
+
         for token in self.expression:
             if isinstance(token, VariableToken):
                 token.execute(x)

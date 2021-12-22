@@ -21,9 +21,7 @@ def main():
     domain = [-1, 1]
     range = [-1, 1]
 
-    print(args)
     calc = Calculator(args.equation)
-    print(calc.calculate(x=1))
 
     pygame.init()
 
@@ -39,7 +37,7 @@ def main():
                 running = False
             elif event.type == pygame.MOUSEWHEEL:
                 if event.y != 0:
-                    eq.zoom(event.y)
+                    eq.zoom(-event.y)
             elif event.type == pygame.MOUSEMOTION:
                 # If LMB is down...
                 if event.buttons[0] == 1:

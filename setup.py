@@ -21,7 +21,7 @@ CONTENT = {
     "packages": find_packages(where="src"),
     "entry_points": {
         'console_scripts': [
-            'eqvis = equation_visualizer.__main__:main'
+            'veq = equation_visualizer.__main__:main'
         ]
     },
     "classifiers": [
