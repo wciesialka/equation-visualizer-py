@@ -29,6 +29,7 @@ def main():
     pygame.init()
 
     screen = pygame.display.set_mode([900, 900])
+    pygame.display.set_caption('veq')
 
     eq = Equation(calc, domain.copy(), range.copy())
     visualizer = Visualizer(eq, screen)
@@ -42,7 +43,7 @@ def main():
                 if event.y != 0:
                     eq.zoom(-event.y)
             elif event.type == pygame.MOUSEMOTION:
-                # If LMB is /bin/python3down...
+                # If LMB is down...
                 if event.buttons[0] == 1:
                     rel = [x/100 for x in event.rel]
                     eq.domain[0] -= rel[0]
@@ -50,7 +51,13 @@ def main():
                     eq.range[0]  += rel[1]
                     eq.range[1]  += rel[1]
             elif event.type == pygame.KEYUP:
-                if event.key == 114: # r
+                logging.debug("Key pressed: %i", event.key)
+                if event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
+                    eq.zoom(1)
+                elif event.key == pygame.K_PLUS or event.key == 61 or event.key == pygame.K_KP_PLUS: 
+                    # 61 = Plus. For some reason pygame.K_PLUS wasn't wanting to work
+                    eq.zoom(-1)
+                elif event.key == pygame.K_r:
                     eq.domain = domain.copy()
                     eq.range = range.copy()
         screen.fill((255, 255, 255))

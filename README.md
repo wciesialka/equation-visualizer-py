@@ -59,6 +59,8 @@ The following controls are supported:
 | Mouse Drag | Move view by changing domain and range. |
 | Mouse Wheel Up | Zoom in by decreasing domain and range. |
 | Mouse Wheel Down | Zoom out by increasing domain and range. |
+| + | Zoom in by decreasing domain and range. |
+| - | Zoom out by increasing domain and range. |
 | r | Reset domain and range. |
 
 ## License
