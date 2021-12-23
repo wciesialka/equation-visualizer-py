@@ -30,19 +30,24 @@ optional arguments:
 
 ## Features
 
+Expressions will be evaluated and graphed with `y = f(x)` over a set domain and range. 
+
 ### Syntax
 
 The following operations are supported:
 
 | symbol  | operation      |
 | ------- | -------------- |
+| Number  | Any floating point number.      |
+| pi      | Pi             |
+| e       | Euler's constant |
+| x       | The variable x  |
 | +       | Addition       |
 | -       | Subtraction    |
 | *       | Multiplication |
 | /       | Division       |
 | ^       | Exponential    |
 | ( )     | Paranthesis    |
-| x       | "x" variable.  |
 | sin[^1] | Sin            |
 | cos[^1] | Cos            |
 | tan[^1] | Tan            |
