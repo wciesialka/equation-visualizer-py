@@ -67,10 +67,12 @@ class Visualizer:
             except:
                 return None # Error
             else:
-                # output = output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start)
-                divisor = (self.top - self.bottom)
+                if isinstance(y, float) or isinstance(y, int): # We don't want complex numbers or anything unexpected...
+                    # output = output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start)
+                    divisor = (self.top - self.bottom)
 
-                return (self.height + ((0 - self.height) / divisor) * (y - self.bottom))
+                    return (self.height + ((0 - self.height) / divisor) * (y - self.bottom))
+                return None
 
         list_of_points = []
         points: List[Tuple[int, float]] = []
