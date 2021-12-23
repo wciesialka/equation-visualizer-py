@@ -9,7 +9,7 @@ REQUIREMENTS = (THIS_DIRECTORY / "requirements.txt").read_text().split('\n')[:-1
 LONG_DESCRIPTION = (THIS_DIRECTORY / "README.md").read_text()
 
 CONTENT = {
-    "name": "equation_visualizer",
+    "name": "veq",
     "version": "1.0.0",
     "author": "Willow Ciesialka",
     "author_email": "wciesialka@gmail.com",
@@ -21,7 +21,7 @@ CONTENT = {
     "packages": find_packages(where="src"),
     "entry_points": {
         'console_scripts': [
-            'veq = equation_visualizer.__main__:main'
+            'veq = veq.__main__:main'
         ]
     },
     "classifiers": [

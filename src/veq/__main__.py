@@ -1,6 +1,6 @@
 import pygame
-from equation_visualizer.calculator import Calculator
-import equation_visualizer.visualizer as vis
+from veq.calculator import Calculator
+from veq.visualizer import Equation, Visualizer
 from math import log, sin
 import argparse
 
@@ -27,8 +27,8 @@ def main():
 
     screen = pygame.display.set_mode([900, 900])
 
-    eq = vis.Equation(calc, domain.copy(), range.copy())
-    visualizer = vis.Visualizer(eq, screen)
+    eq = Equation(calc, domain.copy(), range.copy())
+    visualizer = Visualizer(eq, screen)
 
     running = True
     while running: 

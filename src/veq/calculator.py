@@ -1,5 +1,5 @@
 from typing import List, Dict
-from equation_visualizer.parser.tokens import TokenBuilder, Token, TokenStream, VariableToken
+from veq.parser.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
 class Calculator:
 
@@ -28,10 +28,10 @@ class Calculator:
             "*":   self.builder.build_multiply,
             "/":   self.builder.build_divide,
             "^":   self.builder.build_power,
-            "sin": self.builder.build_sin,
-            "cos": self.builder.build_cos,
-            "tan": self.builder.build_tan,
-            "log": self.builder.build_log,
+            "sin(": self.builder.build_sin,
+            "cos(": self.builder.build_cos,
+            "tan(": self.builder.build_tan,
+            "log(": self.builder.build_log,
         }
 
         stack: List[Token] = []
@@ -69,6 +69,11 @@ class Calculator:
                     token = self.builder.build_value(x)
                     self.expression.append(token)
                     continue
+
+            if isinstance(token, FunctionToken):
+                self.infix_to_postfix()
+                self.expression.append(token)
+                continue
 
             while len(stack) > 0 and stack[-1].precedence >= token.precedence:
                 self.expression.append(stack.pop())

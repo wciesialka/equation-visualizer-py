@@ -95,15 +95,15 @@ class DivideToken(BinaryToken):
 
 class PowerToken(BinaryToken):
 
-    PRECEDENCE = 3
+    PRECEDENCE = 4
 
     def operation(self, a, b):
         return a ** b
 
-class UnaryToken(Token):
+class FunctionToken(Token):
 
     @abstractmethod
-    def operation(self, a,):
+    def operation(self, a):
         pass
 
     def execute(self):
@@ -111,30 +111,30 @@ class UnaryToken(Token):
         result = self.operation(a)
         self._stack.append(result)
 
-class SinToken(UnaryToken):
+class SinToken(FunctionToken):
 
-    PRECEDENCE = 2
+    PRECEDENCE = 3
 
     def operation(self, a):
         return sin(a)
 
-class CosToken(UnaryToken):
+class CosToken(FunctionToken):
 
-    PRECEDENCE = 2
+    PRECEDENCE = 3
 
     def operation(self, a):
         return cos(a)
 
-class TanToken(UnaryToken):
+class TanToken(FunctionToken):
 
-    PRECEDENCE = 2
+    PRECEDENCE = 3
 
     def operation(self, a):
         return tan(a)
 
-class LogToken(UnaryToken):
+class LogToken(FunctionToken):
 
-    PRECEDENCE = 2
+    PRECEDENCE = 3
 
     def operation(self, a):
         return log(a)
@@ -189,7 +189,7 @@ class TokenBuilder:
     def build_x(self):
         return VariableToken(self._stack)
 
-TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|/|\(|\)|\^|tan|cos|sin|log|pi|e|x")
+TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|/|\)|\^|tan\(|cos\(|sin\(|log\(|pi|e|x|\(")
 
 class TokenStream:
 

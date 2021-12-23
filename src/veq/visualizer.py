@@ -4,7 +4,7 @@ from typing import Callable, Tuple, List
 import pygame
 import logging
 
-from equation_visualizer.calculator import Calculator
+from veq.calculator import Calculator
 
 class Equation:
 
