@@ -3,6 +3,7 @@ from veq.calculator import Calculator
 from veq.visualizer import Equation, Visualizer
 from math import log, sin
 import argparse
+import logging
 
 def parse_args() -> argparse.Namespace:
     '''Parse command line arguments.
@@ -10,13 +11,15 @@ def parse_args() -> argparse.Namespace:
     :returns: Parsed arguments.
     :rtype; argparse.Namespace'''
     parser = argparse.ArgumentParser("veq",description="Visualize an equation.")
-    parser.add_argument("equation", type=str.lower)
+    parser.add_argument("equation", type=str.lower, help="Equation to plot.")
+    parser.add_argument("-d","--debug", dest="level", action="store_const", const=logging.DEBUG, default=logging.INFO, help="Enable debug logging.")
 
     return parser.parse_args()
 
-
 def main():
     args = parse_args()
+
+    logging.basicConfig(level=args.level)
 
     domain = [-1, 1]
     range = [-1, 1]
