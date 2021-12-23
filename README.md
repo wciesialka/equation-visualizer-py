@@ -1,2 +1,2 @@
-# equation-visualizer-py
-Visualization of Equations
+# veq
+View equations.
