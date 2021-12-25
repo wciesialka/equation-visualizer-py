@@ -26,6 +26,8 @@ positional arguments:
 optional arguments:
   -h, --help   show this help message and exit
   -d, --debug  Enable debug logging.
+  -s n, --step n  Enable gridlines with step n
+  -a, --noaxis    Disable axis.
 ```
 
 ## Features
