@@ -13,6 +13,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser("veq",description="Visualize an equation.")
     parser.add_argument("equation", type=str.lower, help="Equation to plot.")
     parser.add_argument("-d","--debug", dest="level", action="store_const", const=logging.DEBUG, default=logging.INFO, help="Enable debug logging.")
+    parser.add_argument("-s","--step", metavar='n', type=float, default=None, help="Enable gridlines with step n")
 
     return parser.parse_args()
 
@@ -61,6 +62,8 @@ def main():
                     eq.domain = domain.copy()
                     eq.range = range.copy()
         screen.fill((255, 255, 255))
+        if not args.step is None:
+            visualizer.draw_grid(args.step)
         visualizer.draw_equation()
         visualizer.draw_text()
 

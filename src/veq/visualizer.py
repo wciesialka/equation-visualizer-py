@@ -106,3 +106,46 @@ class Visualizer:
         self.screen.blit(domain_text, (0, 12))
         self.screen.blit(range_text, (0, 24))
         self.screen.blit(eq_text, (0, 0))
+
+    def __domain_range(self, step):
+        x = (self.left // step) * step 
+        while x < self.right:
+            x += step
+            yield x
+        return x
+
+    def __range_range(self, step):
+        y = (self.bottom // step) * step 
+        while y < self.top:
+            y += step
+            yield y
+        return y
+
+    def draw_grid(self, step):
+
+        if round(step) == step:
+            step_precision = 0
+        else:
+            step_str = str(step)
+            step_precision = len(step_str[step_str.index('.')+1:])
+
+        text_format = lambda x : str(round(x,step_precision))
+
+        grid_color = (200, 200, 200)
+        text_color = (100, 100, 100)
+
+        for x in self.__domain_range(step):
+            screen_x = (self.width + ((0 - self.width) / (self.right - self.left)) * (x - self.left))
+            pygame.draw.line(self.screen, grid_color, (screen_x, 0), (screen_x, self.height))
+            text = text_format(x)
+            text_surface = self.font.render(text, True, text_color, (255, 255, 255))
+            self.screen.blit(text_surface, (screen_x - (len(text)/2)*6, self.height-12))
+            
+
+        for y in self.__range_range(step):
+            screen_y =  (self.height + ((0 - self.height) / (self.top - self.bottom)) * (y - self.bottom))
+            pygame.draw.line(self.screen, grid_color, (0, screen_y), (self.width, screen_y))
+            text = text_format(y)
+            text_surface = self.font.render(text, True, text_color, (255, 255, 255))
+            self.screen.blit(text_surface, (12, screen_y - 6))
+            
