@@ -47,7 +47,7 @@ class Visualizer:
         return self.equation.domain[1]
 
     def f(self, x):
-        return self.equation.f(x)
+        return self.equation.calculator.calculate(x)
 
     @property
     def width(self):
@@ -71,7 +71,7 @@ class Visualizer:
 
         def y_map(x):
             try:
-                y = self.equation.calculator.calculate(x)
+                y = self.f(x)
             except:
                 return None # Error
             else:
@@ -163,3 +163,19 @@ class Visualizer:
             pygame.draw.line(self.screen, axis_color, (screen_x, 0), (screen_x, self.height))
         if 0 <= screen_y <= self.height:
             pygame.draw.line(self.screen, axis_color, (0, screen_y), (self.width, screen_y))
+
+    def draw_location(self, mouse_pos):
+        mouse_x, mouse_y = mouse_pos
+        color = (0, 0, 128)
+
+        x = map(mouse_x, 0, self.width, self.left, self.right)
+        y = self.f(x)
+
+        screen_y = map(y, self.bottom, self.top, self.height, 0)
+
+        pygame.draw.circle(self.screen, color, (mouse_x, screen_y), 5, width=2)
+        text_surface = self.font.render(f"Location: ({x:.2f}, {y:.2f})",  True, (0, 0, 0), (255, 255, 255))
+        self.screen.blit(text_surface, (0, 36))
+
+    def draw_saved(self):
+        pass
