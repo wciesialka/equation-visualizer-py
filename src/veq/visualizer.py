@@ -48,7 +48,14 @@ class Visualizer:
         return self.equation.domain[1]
 
     def f(self, x):
-        return self.equation.calculator.calculate(x)
+        try:
+            y = self.equation.calculator.calculate(x)
+        except:
+            return None
+        else:
+            if not isinstance(y, float):
+                return None
+            return y
 
     @property
     def width(self):
@@ -171,17 +178,21 @@ class Visualizer:
         mouse_x, mouse_y = mouse_pos
         x = map(mouse_x, 0, self.width, self.left, self.right)
         y = self.f(x)
-        screen_y = map(y, self.bottom, self.top, self.height, 0)
+        if not y is None:
+            screen_y = map(y, self.bottom, self.top, self.height, 0)
 
-        pygame.draw.circle(self.screen, color, (mouse_x, screen_y), 5, width=2)
-        text_surface = self.font.render(f"Location: ({x:.2f}, {y:.2f})",  True, (0, 0, 0), (255, 255, 255))
-        self.screen.blit(text_surface, (0, 48))
+            pygame.draw.circle(self.screen, color, (mouse_x, screen_y), 5, width=2)
+            text_surface = self.font.render(f"Location: ({x:.2f}, {y:.2f})",  True, (0, 0, 0), (255, 255, 255))
+            self.screen.blit(text_surface, (0, 48))
 
     def save(self, mouse_pos):
         mouse_x, mouse_y = mouse_pos
         x = map(mouse_x, 0, self.width, self.left, self.right)
         y = self.f(x)
-        self.saved = (x, y)
+        if y is None:
+            self.saved = None
+        else:
+            self.saved = (x, y)
 
     def on_screen(self, point):
         return 0 <= point[0] <= self.width and 0 <= point[1] <= self.height
