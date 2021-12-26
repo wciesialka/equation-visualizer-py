@@ -45,13 +45,18 @@ def main():
                 if event.y != 0:
                     eq.zoom(-event.y)
             elif event.type == pygame.MOUSEMOTION:
-                # If LMB is down...
-                if event.buttons[0] == 1:
+                mouse_x, mouse_y = event.pos
+
+                # If RMB is down...
+                if event.buttons[2] == 1:
                     rel = [x/100 for x in event.rel]
                     eq.domain[0] -= rel[0]
                     eq.domain[1] -= rel[0]
                     eq.range[0]  += rel[1]
                     eq.range[1]  += rel[1]
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    visualizer.save(event.pos)
             elif event.type == pygame.KEYUP:
                 logging.debug("Key pressed: %i", event.key)
                 if event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
@@ -62,6 +67,9 @@ def main():
                 elif event.key == pygame.K_r:
                     eq.domain = domain.copy()
                     eq.range = range.copy()
+            elif event.type == pygame.ACTIVEEVENT:
+                focus = (event.gain == 1)
+
         screen.fill((255, 255, 255))
         if not args.step is None:
             visualizer.draw_grid(args.step)
@@ -69,6 +77,10 @@ def main():
             visualizer.draw_axis()
         visualizer.draw_equation()
         visualizer.draw_text()
+
+        if focus:
+            visualizer.draw_location((mouse_x, mouse_y))
+        visualizer.draw_saved()
 
         pygame.display.flip()
 
