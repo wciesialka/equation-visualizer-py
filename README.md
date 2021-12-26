@@ -32,7 +32,7 @@ optional arguments:
 
 ## Features
 
-Expressions will be evaluated and graphed with `y = f(x)` over a set domain and range. 
+Expressions will be evaluated and graphed with `y = f(x)` over a set domain and range. You can view exactly where a point falls on an equation by hovering over the line. You can also find the corresponding y-value to an x-value by moving the mouse. You can save one point for reference.
 
 ### Syntax
 
@@ -63,6 +63,7 @@ The following controls are supported:
 
 | control | action |
 | ------- | ------ |
+| Left Mouse Button | Save point. |
 | Mouse Right-Click Drag | Move view by changing domain and range. |
 | Mouse Wheel Up | Zoom in by decreasing domain and range. |
 | Mouse Wheel Down | Zoom out by increasing domain and range. |

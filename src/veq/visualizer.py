@@ -37,6 +37,7 @@ class Visualizer:
         self.equation = equation
         self.screen = screen
         self.color = color
+        self.saved = None
 
     @property
     def left(self):
@@ -165,17 +166,35 @@ class Visualizer:
             pygame.draw.line(self.screen, axis_color, (0, screen_y), (self.width, screen_y))
 
     def draw_location(self, mouse_pos):
-        mouse_x, mouse_y = mouse_pos
-        color = (0, 0, 128)
+        color = (0, 0, 175)
 
+        mouse_x, mouse_y = mouse_pos
         x = map(mouse_x, 0, self.width, self.left, self.right)
         y = self.f(x)
-
         screen_y = map(y, self.bottom, self.top, self.height, 0)
 
         pygame.draw.circle(self.screen, color, (mouse_x, screen_y), 5, width=2)
         text_surface = self.font.render(f"Location: ({x:.2f}, {y:.2f})",  True, (0, 0, 0), (255, 255, 255))
-        self.screen.blit(text_surface, (0, 36))
+        self.screen.blit(text_surface, (0, 48))
+
+    def save(self, mouse_pos):
+        mouse_x, mouse_y = mouse_pos
+        x = map(mouse_x, 0, self.width, self.left, self.right)
+        y = self.f(x)
+        self.saved = (x, y)
+
+    def on_screen(self, point):
+        return 0 <= point[0] <= self.width and 0 <= point[1] <= self.height
+        
 
     def draw_saved(self):
-        pass
+        color = (25, 175, 25)
+
+        if not self.saved is None:
+            x, y = self.saved
+            screen_x = map(x, self.left, self.right, 0, self.width)
+            screen_y = map(y, self.bottom, self.top, self.height, 0)
+            text_surface = self.font.render(f"Saved: ({x:.2f}, {y:.2f})",  True, (0, 0, 0), (255, 255, 255))
+            self.screen.blit(text_surface, (0, 36))
+            if self.on_screen((screen_x, screen_y)):
+                pygame.draw.circle(self.screen, color, (screen_x, screen_y), 4, width=1)

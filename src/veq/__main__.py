@@ -54,6 +54,9 @@ def main():
                     eq.domain[1] -= rel[0]
                     eq.range[0]  += rel[1]
                     eq.range[1]  += rel[1]
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    visualizer.save(event.pos)
             elif event.type == pygame.KEYUP:
                 logging.debug("Key pressed: %i", event.key)
                 if event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
