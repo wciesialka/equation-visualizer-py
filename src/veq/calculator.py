@@ -3,6 +3,17 @@
 from typing import List, Dict, Union
 from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
+class CalculationError(Exception):
+
+    '''An exception that indicates there was an error in calculating the user's equation.'''
+    
+    def __init__(self, expression: str):
+        self.__expression = expression
+        super().__init__(expression)
+
+    def __str__(self):
+        return f"Error in equation \"f(x) = {self.__expression}\""
+
 class Calculator:
 
     '''Class responsible for converting infix to postfix and calculating expressions.
@@ -104,10 +115,17 @@ class Calculator:
 
         self.stack.clear()
 
-        for token in self.expression:
-            if isinstance(token, VariableToken):
-                token.execute(x)
-            else:
-                token.execute()
-
-        return self.stack[-1]
+        try:
+            for token in self.expression:
+                if isinstance(token, VariableToken):
+                    token.execute(x)
+                else:
+                    token.execute()
+        except:
+            pass
+        else:
+            if len(self.stack) > 0:
+                result = self.stack[-1]
+                if isinstance(result, (float, int)):
+                    return result
+        raise CalculationError(self.stream.text)

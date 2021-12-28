@@ -193,23 +193,33 @@ TOKEN_REGEX = re.compile(r"\d+\.?\d*|\+|-|\*|/|\)|\^|tan\(|cos\(|sin\(|log\(|pi|
 
 class TokenStream:
 
+    '''A read-only representation of a stream of strings representing individual tokens.
+
+    :property text: The infix represnetation of the full expression.
+    :type text: str'''
+
     def __init__(self, expression: str):
-        self.expression: List[str] = TOKEN_REGEX.findall(expression)
-        self.i = 0
+        self.__expression: List[str] = TOKEN_REGEX.findall(expression)
+        self.__iteration = 0
+
+    @property
+    def text(self):
+        return "".join(self.__expression)
 
     def reset(self):
-        self.i = 0
+        '''Reset the stream to the beginning.'''
+        self.__iteration = 0
 
     def __iter__(self): 
         return self
 
     def __next__(self):
-        if self.i < len(self.expression):
-            value = self.expression[self.i]
-            self.i += 1
+        if self.__iteration < len(self.__expression):
+            value = self.__expression[self.__iteration]
+            self.__iteration += 1
             return value
         else:
             raise StopIteration
 
     def __str__(self):
-        return "".join(self.expression)
+        return self.text
