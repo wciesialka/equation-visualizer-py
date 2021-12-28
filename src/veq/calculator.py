@@ -1,11 +1,21 @@
-from typing import List, Dict
-from veq.parser.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
+'''Containing module for the Calculator class.'''
+
+from typing import List, Dict, Union
+from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
 class Calculator:
 
-    def __init__(self, stream: TokenStream, stack: List[float] = []):
+    '''Class responsible for converting infix to postfix and calculating expressions.
+
+    :attribute stream: Expression in infix format for reading expressions.
+    :type stream: str or TokenStream
+    :attribute stack: Calculation stack.
+    :type stack: List(float)
+    :value stack: []'''
+
+    def __init__(self, stream: Union[str, TokenStream], stack: List[float] = []):
         self.stack = stack
-        self.builder = TokenBuilder(self.stack)
+        self.__builder = TokenBuilder(self.stack)
 
         if isinstance(stream, str):
             self.stream = TokenStream(stream)
@@ -16,22 +26,22 @@ class Calculator:
 
     def infix_to_postfix(self):
         '''Convert infix stream to postfix list of tokens.
-        
+
         :param expression: String to tokenize.
         :type expression: str
         :returns: List of tokens
         :rtype: list(Token)'''
 
-        REPRESENTATIONS: Dict[str, Token] = {
-            "+":   self.builder.build_add,
-            "-":   self.builder.build_subtract,
-            "*":   self.builder.build_multiply,
-            "/":   self.builder.build_divide,
-            "^":   self.builder.build_power,
-            "sin(": self.builder.build_sin,
-            "cos(": self.builder.build_cos,
-            "tan(": self.builder.build_tan,
-            "log(": self.builder.build_log,
+        lookup: Dict[str, Token] = {
+            "+":   self.__builder.build_add,
+            "-":   self.__builder.build_subtract,
+            "*":   self.__builder.build_multiply,
+            "/":   self.__builder.build_divide,
+            "^":   self.__builder.build_power,
+            "sin(": self.__builder.build_sin,
+            "cos(": self.__builder.build_cos,
+            "tan(": self.__builder.build_tan,
+            "log(": self.__builder.build_log,
         }
 
         stack: List[Token] = []
@@ -39,10 +49,10 @@ class Calculator:
         token: Token = None
 
         for match in self.stream:
-            if match in REPRESENTATIONS:
-                token = REPRESENTATIONS[match]()
+            if match in lookup:
+                token = lookup[match]()
             elif match == "x":
-                token = self.builder.build_x()
+                token = self.__builder.build_x()
                 self.expression.append(token)
                 continue
             elif match == '(':
@@ -53,11 +63,11 @@ class Calculator:
                     self.expression.append(stack.pop())
                 return
             elif match == 'pi':
-                token = self.builder.build_pi()
+                token = self.__builder.build_pi()
                 self.expression.append(token)
                 continue
             elif match == 'e':
-                token = self.builder.build_e()
+                token = self.__builder.build_e()
                 self.expression.append(token)
                 continue
             else:
@@ -66,7 +76,7 @@ class Calculator:
                 except:
                     raise TypeError(f"Invalid Token \"{match}\"")
                 else:
-                    token = self.builder.build_value(x)
+                    token = self.__builder.build_value(x)
                     self.expression.append(token)
                     continue
 
@@ -83,6 +93,12 @@ class Calculator:
             self.expression.append(stack.pop())
 
     def calculate(self, x: float) -> float:
+        '''Calculate the Calculator's expression.
+
+        :param x: Value to substitute for x in the expression.
+        :type x: float
+        :returns: The result of the equation.
+        :rtype: float'''
         if len(self.expression) == 0:
             self.infix_to_postfix()
 
