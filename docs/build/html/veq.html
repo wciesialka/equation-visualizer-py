@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>veq package &#8212; veq 1.2.1 documentation</title>
+    <title>veq package &#8212; veq 1.2.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -39,6 +39,13 @@
 <section id="module-veq.calculator">
 <span id="veq-calculator-module"></span><h2>veq.calculator module<a class="headerlink" href="#module-veq.calculator" title="Permalink to this headline">¶</a></h2>
 <p>Containing module for the Calculator class.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="veq.calculator.CalculationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.calculator.</span></span><span class="sig-name descname"><span class="pre">CalculationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.calculator.CalculationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>An exception that indicates there was an error in calculating the user’s equation.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="veq.calculator.Calculator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.calculator.</span></span><span class="sig-name descname"><span class="pre">Calculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#veq.tokens.TokenStream" title="veq.tokens.TokenStream"><span class="pre">veq.tokens.TokenStream</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.calculator.Calculator" title="Permalink to this definition">¶</a></dt>
@@ -58,7 +65,19 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.calculator.Calculator.calculate">
 <span class="sig-name descname"><span class="pre">calculate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#veq.calculator.Calculator.calculate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the Calculator’s expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – Value to substitute for x in the expression.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of the equation.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.calculator.Calculator.infix_to_postfix">
@@ -82,10 +101,20 @@
 </section>
 <section id="module-veq.tokens">
 <span id="veq-tokens-module"></span><h2>veq.tokens module<a class="headerlink" href="#module-veq.tokens" title="Permalink to this headline">¶</a></h2>
+<p>Module containing all tokens and classes needed to tokenize expressions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">data TOKEN_REGEX</dt>
+<dd class="field-odd"><p>Regular Expression used for extracting specific token characters.</p>
+</dd>
+<dt class="field-even">type TOKEN_REGEX</dt>
+<dd class="field-even"><p>Pattern</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="veq.tokens.AddToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">AddToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.AddToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.BinaryToken" title="veq.tokens.BinaryToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.BinaryToken</span></code></a></p>
+<p>Addition token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.AddToken.PRECEDENCE">
 <span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#veq.tokens.AddToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
@@ -94,7 +123,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.AddToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.AddToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add a and b</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -102,26 +132,18 @@
 <dt class="sig sig-object py" id="veq.tokens.BinaryToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">BinaryToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.BinaryToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.Token" title="veq.tokens.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.Token</span></code></a></p>
+<p>Binary Operation token.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.BinaryToken.execute">
 <span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.BinaryToken.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Pop two items from the stack, run an operation on them,            and push the result to the stack.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.BinaryToken.operation">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.BinaryToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>What operation to execute.</p>
 </dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="veq.tokens.CloseToken">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">CloseToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.CloseToken" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#veq.tokens.Token" title="veq.tokens.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.Token</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="veq.tokens.CloseToken.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.CloseToken.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -129,15 +151,17 @@
 <dt class="sig sig-object py" id="veq.tokens.CosToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">CosToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.CosToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.FunctionToken" title="veq.tokens.FunctionToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.FunctionToken</span></code></a></p>
+<p>Cosine token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.CosToken.PRECEDENCE">
-<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#veq.tokens.CosToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#veq.tokens.CosToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.CosToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.CosToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run cosine</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -145,6 +169,7 @@
 <dt class="sig sig-object py" id="veq.tokens.DivideToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">DivideToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.DivideToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.BinaryToken" title="veq.tokens.BinaryToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.BinaryToken</span></code></a></p>
+<p>Division token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.DivideToken.PRECEDENCE">
 <span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#veq.tokens.DivideToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
@@ -153,24 +178,28 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.DivideToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.DivideToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Divide a and b.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="veq.tokens.EulerToken">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">EulerToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.EulerToken" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">EulerToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.EulerToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.ValueToken" title="veq.tokens.ValueToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.ValueToken</span></code></a></p>
+<p>Token for the number e.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="veq.tokens.FunctionToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">FunctionToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.FunctionToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.Token" title="veq.tokens.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.Token</span></code></a></p>
+<p>Token representing a unary function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.FunctionToken.execute">
 <span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.FunctionToken.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Pop an item from the stack, run a function on it,            and push the result to the stack.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.FunctionToken.operation">
@@ -183,15 +212,17 @@
 <dt class="sig sig-object py" id="veq.tokens.LogToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">LogToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.LogToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.FunctionToken" title="veq.tokens.FunctionToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.FunctionToken</span></code></a></p>
+<p>Logarithm token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.LogToken.PRECEDENCE">
-<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#veq.tokens.LogToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#veq.tokens.LogToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.LogToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.LogToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run logarithm base 10.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -199,6 +230,7 @@
 <dt class="sig sig-object py" id="veq.tokens.MultiplyToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">MultiplyToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.MultiplyToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.BinaryToken" title="veq.tokens.BinaryToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.BinaryToken</span></code></a></p>
+<p>Multiplication token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.MultiplyToken.PRECEDENCE">
 <span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#veq.tokens.MultiplyToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
@@ -207,18 +239,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.MultiplyToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.MultiplyToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Multiply a and b</p>
 </dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="veq.tokens.OpenToken">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">OpenToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.OpenToken" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#veq.tokens.Token" title="veq.tokens.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.Token</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="veq.tokens.OpenToken.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.OpenToken.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -226,21 +248,24 @@
 <dt class="sig sig-object py" id="veq.tokens.PiToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">PiToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.PiToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.ValueToken" title="veq.tokens.ValueToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.ValueToken</span></code></a></p>
+<p>Token for the number pi.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="veq.tokens.PowerToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">PowerToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.PowerToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.BinaryToken" title="veq.tokens.BinaryToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.BinaryToken</span></code></a></p>
+<p>Exponation token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.PowerToken.PRECEDENCE">
-<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#veq.tokens.PowerToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#veq.tokens.PowerToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.PowerToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.PowerToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Exponate a to the power of b</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -248,15 +273,17 @@
 <dt class="sig sig-object py" id="veq.tokens.SinToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">SinToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.SinToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.FunctionToken" title="veq.tokens.FunctionToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.FunctionToken</span></code></a></p>
+<p>Sine token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.SinToken.PRECEDENCE">
-<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#veq.tokens.SinToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#veq.tokens.SinToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.SinToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.SinToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run sin</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -264,6 +291,7 @@
 <dt class="sig sig-object py" id="veq.tokens.SubtractToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">SubtractToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.SubtractToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.BinaryToken" title="veq.tokens.BinaryToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.BinaryToken</span></code></a></p>
+<p>Subtraction token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.SubtractToken.PRECEDENCE">
 <span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#veq.tokens.SubtractToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
@@ -272,7 +300,8 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.SubtractToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.SubtractToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Subtract a and</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -280,15 +309,17 @@
 <dt class="sig sig-object py" id="veq.tokens.TanToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">TanToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TanToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.FunctionToken" title="veq.tokens.FunctionToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.FunctionToken</span></code></a></p>
+<p>Tangent token.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="veq.tokens.TanToken.PRECEDENCE">
-<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#veq.tokens.TanToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">PRECEDENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#veq.tokens.TanToken.PRECEDENCE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TanToken.operation">
 <span class="sig-name descname"><span class="pre">operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TanToken.operation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Run tangent</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -296,15 +327,18 @@
 <dt class="sig sig-object py" id="veq.tokens.Token">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">Token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.Token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Token Abstract Base Class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.Token.execute">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.Token.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Execute the function.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.tokens.Token.precedence">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">precedence</span></span><a class="headerlink" href="#veq.tokens.Token.precedence" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Precedence of a token.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -312,80 +346,84 @@
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">TokenBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Build tokens.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_add">
 <span class="sig-name descname"><span class="pre">build_add</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_close">
-<span class="sig-name descname"><span class="pre">build_close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_close" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build an add token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_cos">
 <span class="sig-name descname"><span class="pre">build_cos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_cos" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a cos token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_divide">
 <span class="sig-name descname"><span class="pre">build_divide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_divide" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a divide token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_e">
 <span class="sig-name descname"><span class="pre">build_e</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_e" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build an e token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_log">
 <span class="sig-name descname"><span class="pre">build_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_log" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a log token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_multiply">
 <span class="sig-name descname"><span class="pre">build_multiply</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_multiply" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_open">
-<span class="sig-name descname"><span class="pre">build_open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_open" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a multiply token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_pi">
 <span class="sig-name descname"><span class="pre">build_pi</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_pi" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a pi token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_power">
 <span class="sig-name descname"><span class="pre">build_power</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_power" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a power token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_sin">
 <span class="sig-name descname"><span class="pre">build_sin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_sin" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a sin token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_subtract">
 <span class="sig-name descname"><span class="pre">build_subtract</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_subtract" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a subtract token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_tan">
 <span class="sig-name descname"><span class="pre">build_tan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_tan" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a tan token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_value">
 <span class="sig-name descname"><span class="pre">build_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_value" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a value token.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenBuilder.build_x">
 <span class="sig-name descname"><span class="pre">build_x</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenBuilder.build_x" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build a variable token.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -393,10 +431,23 @@
 <dt class="sig sig-object py" id="veq.tokens.TokenStream">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">TokenStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenStream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A read-only representation of a stream of strings representing individual tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Property text</dt>
+<dd class="field-odd"><p>The infix represenetation of the full expression.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.TokenStream.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.TokenStream.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reset the stream to the beginning.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="veq.tokens.TokenStream.text">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#veq.tokens.TokenStream.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>The infix representation of the full expression.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -404,10 +455,12 @@
 <dt class="sig sig-object py" id="veq.tokens.ValueToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">ValueToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.ValueToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.Token" title="veq.tokens.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.Token</span></code></a></p>
+<p>Token representing a number.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.ValueToken.execute">
 <span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.ValueToken.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Push value to top of stack.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -415,10 +468,17 @@
 <dt class="sig sig-object py" id="veq.tokens.VariableToken">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.tokens.</span></span><span class="sig-name descname"><span class="pre">VariableToken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.VariableToken" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#veq.tokens.Token" title="veq.tokens.Token"><code class="xref py py-class docutils literal notranslate"><span class="pre">veq.tokens.Token</span></code></a></p>
+<p>Variable token.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.tokens.VariableToken.execute">
-<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.VariableToken.execute" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.tokens.VariableToken.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push given value to top of stack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>float</em>) – What value to push.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -428,12 +488,30 @@
 <p>Equation visualization module.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="veq.visualizer.Equation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.visualizer.</span></span><span class="sig-name descname"><span class="pre">Equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calculator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#veq.calculator.Calculator" title="veq.calculator.Calculator"><span class="pre">veq.calculator.Calculator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Equation" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.visualizer.</span></span><span class="sig-name descname"><span class="pre">Equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calculator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#veq.calculator.Calculator" title="veq.calculator.Calculator"><span class="pre">veq.calculator.Calculator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Equation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An equation with an expression, domain, and range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attribute calculator</dt>
+<dd class="field-odd"><p>The calculator holding the postfix expression to calculate.</p>
+</dd>
+<dt class="field-even">Attribute domain</dt>
+<dd class="field-even"><p>Domain of the equation.</p>
+</dd>
+<dt class="field-odd">Attribute range</dt>
+<dd class="field-odd"><p>Range of the equation.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Equation.zoom">
-<span class="sig-name descname"><span class="pre">zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">by</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Equation.zoom" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">increase</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Equation.zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust the domain and range by a given number to give the illusion of zooming in/out.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>increase</strong> (<em>float</em>) – Number to adjust by. Half will be subtracted            from the left bound of the domain and range, while                 another half will be added to the right bound.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -441,87 +519,188 @@
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">veq.visualizer.</span></span><span class="sig-name descname"><span class="pre">Visualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">equation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#veq.visualizer.Equation" title="veq.visualizer.Equation"><span class="pre">veq.visualizer.Equation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pygame.Surface</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Graphical visualization of an equation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attribute equation</dt>
+<dd class="field-odd"><p>What equation to plot.</p>
+</dd>
+<dt class="field-even">Attribute screen</dt>
+<dd class="field-even"><p>pygame surface to plot on.</p>
+</dd>
+<dt class="field-odd">Attribute color</dt>
+<dd class="field-odd"><p>What color of line to plot.</p>
+</dd>
+<dt class="field-even">Value color</dt>
+<dd class="field-even"><p>tuple(0, 0, 0)</p>
+</dd>
+<dt class="field-odd">Property width</dt>
+<dd class="field-odd"><p>Width of the screen in pixels.</p>
+</dd>
+<dt class="field-even">Property height</dt>
+<dd class="field-even"><p>Height of the screen in pixels.</p>
+</dd>
+<dt class="field-odd">Property left</dt>
+<dd class="field-odd"><p>Left bound of the equation’s domain.</p>
+</dd>
+<dt class="field-even">Property right</dt>
+<dd class="field-even"><p>Right bound of the equation’s domain.</p>
+</dd>
+<dt class="field-odd">Property top</dt>
+<dd class="field-odd"><p>Left bound of the equation’s range.</p>
+</dd>
+<dt class="field-even">Property bottom</dt>
+<dd class="field-even"><p>Right bound of the equation’s range.</p>
+</dd>
+</dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.bottom">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom</span></span><a class="headerlink" href="#veq.visualizer.Visualizer.bottom" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Bottom bound of the equation.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.draw_axis">
 <span class="sig-name descname"><span class="pre">draw_axis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_axis" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Draw the axis lines onto the screen.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.draw_equation">
 <span class="sig-name descname"><span class="pre">draw_equation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_equation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Plot the equation to the screen.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.draw_grid">
-<span class="sig-name descname"><span class="pre">draw_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_grid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">draw_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a grid onto the screen, with the lines seperated             by a certain step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>step</strong> (<em>float</em>) – What amount to seperate gridlines by.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.draw_location">
-<span class="sig-name descname"><span class="pre">draw_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_location" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">draw_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the location text information onto the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mouse_pos</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – Position of the mouse on the screen.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.draw_saved">
 <span class="sig-name descname"><span class="pre">draw_saved</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_saved" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Draw the saved location onto the screen.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.draw_text">
 <span class="sig-name descname"><span class="pre">draw_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.draw_text" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Draw text onto the screen.</p>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="veq.visualizer.Visualizer.f">
-<span class="sig-name descname"><span class="pre">f</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.f" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="veq.visualizer.Visualizer.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#veq.visualizer.Visualizer.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the Calculator’s expression with value x.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – Value to substitute x for in the Visualizer’s equation.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The resulting expression, or None if there is no valid             calculation for that x value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float or None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.height">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">height</span></span><a class="headerlink" href="#veq.visualizer.Visualizer.height" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Height of the screen.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.left">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">left</span></span><a class="headerlink" href="#veq.visualizer.Visualizer.left" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Left bound of the equation.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.on_screen">
-<span class="sig-name descname"><span class="pre">on_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.on_screen" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">on_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#veq.visualizer.Visualizer.on_screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the given pixel is within the bounds of the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pixel</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – What pixel to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true if the pixel is within the bounds of the screen, and false if it isn’t.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.right">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">right</span></span><a class="headerlink" href="#veq.visualizer.Visualizer.right" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Right bound of the equation.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.Visualizer.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the current location into the visualizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mouse_pos</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – Position of the mouse on the screen.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.top">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top</span></span><a class="headerlink" href="#veq.visualizer.Visualizer.top" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Top bound of the equation.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="veq.visualizer.Visualizer.width">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#veq.visualizer.Visualizer.width" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Width of the screen.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="veq.visualizer.map">
-<span class="sig-prename descclassname"><span class="pre">veq.visualizer.</span></span><span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#veq.visualizer.map" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="veq.visualizer.remap">
+<span class="sig-prename descclassname"><span class="pre">veq.visualizer.</span></span><span class="sig-name descname"><span class="pre">remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#veq.visualizer.remap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a value from an input range to an output range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>float</em>) – Value to map.</p></li>
+<li><p><strong>input_range</strong> (<em>tuple</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em>) – Input range to map from.</p></li>
+<li><p><strong>output_range</strong> (<em>tuple</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em>) – Output range to map to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mapped value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-veq">
