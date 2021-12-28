@@ -71,6 +71,10 @@ The following controls are supported:
 | - | Zoom out by increasing domain and range. |
 | r | Reset domain and range. |
 
+## Documentation
+
+Documentation is supplied through Sphinx Auto-Doc and is available in [docs/build/html](docs/build/html).
+
 ## License
 
 This project is licensed under GNU GENERAL PUBLIC LICENSE V3. View [LICENSE](LICENSE) for details.
