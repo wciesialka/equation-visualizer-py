@@ -7,6 +7,8 @@ Veq, short for **V**iew **Eq**uation, is a pygame based application for graphing
 
 The recommended way to install the most up-to-date version of this project is by cloning the respository and running `setup.py install`. This allows you to control which branch you install as well. This may not always guarantee a stable release, however.
 
+You can also use pip to install the recommended release from [PyPI](https://pypi.org/project/veq/) with `pip install veq`.
+
 ### Requirements
 
 It is recommended you use the most recent stable version of Python. This project was built using Python 3.8.10. Dependencies are listed in [requirements.txt](requirements.txt) and should be installed when running `setup.py`.
