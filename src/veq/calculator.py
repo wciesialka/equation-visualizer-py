@@ -2,6 +2,7 @@
 
 import logging
 from typing import List, Dict, Union
+from math import pi, e
 from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
 class CalculationError(Exception):
@@ -36,6 +37,12 @@ class Calculator:
     :type stack: List(float)
     :value stack: []'''
 
+    CONSTANTS = {
+        "pi": pi,
+        "e": e,
+        "g": 9.80665
+    }
+
     def __init__(self, stream: Union[str, TokenStream], stack: List[float] = []):
         self.stack = stack
         self.__builder = TokenBuilder(self.stack)
@@ -65,7 +72,7 @@ class Calculator:
             if match in lookup:
                 # This is really wonky. Basically: Look up what the name of function is.
                 function_name = lookup[match]
-                # Get what that function is on the instance of our class.
+                # Get the function with that name from the instance of our class.
                 build_function = self.__builder.__getattribute__(function_name)
                 # Execute that function.
                 token = build_function()
@@ -76,20 +83,12 @@ class Calculator:
                 while len(stack) > 0:
                     self.expression.append(stack.pop())
                 return
-            elif match == 'pi':
-                token = self.__builder.build_pi()
-                self.expression.append(token)
-                continue
-            elif match == 'e':
-                token = self.__builder.build_e()
-                self.expression.append(token)
-                continue
             elif match.isalpha():
                 token = self.__builder.build_variable(name = match)
                 self.expression.append(token)
                 continue
             else:
-                token = self.__builder.build_value(float(match))
+                token = self.__builder.build_value(value = float(match))
                 self.expression.append(token)
                 continue
 
@@ -122,6 +121,8 @@ class Calculator:
                 if isinstance(token, VariableToken):
                     if token.name in variables:
                         token.execute(variables[token.name])
+                    elif token.name in Calculator.CONSTANTS:
+                        token.execute(Calculator.CONSTANTS[token.name])
                     else:
                         raise VariableUndefinedError(token.name)
                 else:

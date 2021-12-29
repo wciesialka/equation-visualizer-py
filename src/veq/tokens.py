@@ -69,20 +69,6 @@ class ValueToken(Token):
     def __str__(self):
         return f"ValueToken({self.__value})"
 
-class PiToken(ValueToken):
-
-    '''Token for the number pi.'''
-
-    def __init__(self, stack: List):
-        super().__init__(stack, pi)
-
-class EulerToken(ValueToken):
-
-    '''Token for the number e.'''
-
-    def __init__(self, stack: List):
-        super().__init__(stack, e)
-
 class TokenBuilder:
 
     '''Build tokens.'''
@@ -100,18 +86,8 @@ class TokenBuilder:
         '''Build a variable token.'''
         return VariableToken(self._stack, name)
 
-    def build_e(self) -> EulerToken:
-        '''Build an e token.'''
-        return EulerToken(self._stack)
-
-    def build_pi(self) -> PiToken:
-        '''Build a pi token.'''
-        return PiToken(self._stack)
-
 def add_builder(function_name:str, key: str):
-    '''This decorator allows us to dynamically add tokens to the TokenBuilder. \
-        Note: Do not use this decorator on "value" tokens like Pi, E, ValueToken, \
-            or VariableToken.
+    '''This decorator allows us to dynamically add tokens to the TokenBuilder.
 
     :param function_name: Name of the function to add.
     :type function_name: str
@@ -333,7 +309,9 @@ class DegreesToken(FunctionToken):
     def operation(self, a):
         return degrees(a)
 
-TOKEN_REGEX_STRING: str = r"\d+.?\d*|" + "|".join([re.escape(token) for token in TokenBuilder.TOKENS.keys()]) + r"|\(|\)|\w+"
+TOKEN_REGEX_STRING: str = r"\d+.?\d*|"
+TOKEN_REGEX_STRING += "|".join([re.escape(token) for token in TokenBuilder.TOKENS.keys()]) 
+TOKEN_REGEX_STRING += r"|\(|\)|\w+"
 TOKEN_REGEX: Pattern[str] = re.compile(TOKEN_REGEX_STRING) 
 
 class TokenStream:
