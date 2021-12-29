@@ -2,6 +2,7 @@
 
 import logging
 from typing import List, Dict, Union
+from math import pi, e
 from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
 class CalculationError(Exception):
@@ -36,6 +37,12 @@ class Calculator:
     :type stack: List(float)
     :value stack: []'''
 
+    CONSTANTS = {
+        "pi": pi,
+        "e": e,
+        "g": 9.80665
+    }
+
     def __init__(self, stream: Union[str, TokenStream], stack: List[float] = []):
         self.stack = stack
         self.__builder = TokenBuilder(self.stack)
@@ -55,17 +62,7 @@ class Calculator:
         :returns: List of tokens
         :rtype: list(Token)'''
 
-        lookup: Dict[str, Token] = {
-            "+":   self.__builder.build_add,
-            "-":   self.__builder.build_subtract,
-            "*":   self.__builder.build_multiply,
-            "/":   self.__builder.build_divide,
-            "^":   self.__builder.build_power,
-            "sin(": self.__builder.build_sin,
-            "cos(": self.__builder.build_cos,
-            "tan(": self.__builder.build_tan,
-            "log(": self.__builder.build_log,
-        }
+        lookup = TokenBuilder.TOKENS
 
         stack: List[Token] = []
 
@@ -73,7 +70,12 @@ class Calculator:
 
         for match in self.stream:
             if match in lookup:
-                token = lookup[match]()
+                # This is really wonky. Basically: Look up what the name of function is.
+                function_name = lookup[match]
+                # Get the function with that name from the instance of our class.
+                build_function = self.__builder.__getattribute__(function_name)
+                # Execute that function.
+                token = build_function()
             elif match == '(':
                 self.infix_to_postfix()
                 continue
@@ -81,20 +83,12 @@ class Calculator:
                 while len(stack) > 0:
                     self.expression.append(stack.pop())
                 return
-            elif match == 'pi':
-                token = self.__builder.build_pi()
-                self.expression.append(token)
-                continue
-            elif match == 'e':
-                token = self.__builder.build_e()
-                self.expression.append(token)
-                continue
             elif match.isalpha():
                 token = self.__builder.build_variable(name = match)
                 self.expression.append(token)
                 continue
             else:
-                token = self.__builder.build_value(float(match))
+                token = self.__builder.build_value(value = float(match))
                 self.expression.append(token)
                 continue
 
@@ -127,6 +121,8 @@ class Calculator:
                 if isinstance(token, VariableToken):
                     if token.name in variables:
                         token.execute(variables[token.name])
+                    elif token.name in Calculator.CONSTANTS:
+                        token.execute(Calculator.CONSTANTS[token.name])
                     else:
                         raise VariableUndefinedError(token.name)
                 else:

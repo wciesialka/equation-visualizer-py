@@ -1,6 +1,8 @@
 # veq
 Veq, short for **V**iew **Eq**uation, is a pygame based application for graphing equations.
 
+Note: If you are viewing this README from PyPI, you may be unable to properly open links. Please check the README on the [GitHub page](https://github.com/wciesialka/veq), instead. 
+
 ## Getting Started
 
 ### Installation
@@ -38,27 +40,7 @@ Expressions will be evaluated and graphed with `y = f(x)` over a set domain and 
 
 ### Syntax
 
-The following operations are supported:
-
-| symbol  | operation      |
-| ------- | -------------- |
-| Number  | Any floating point number.      |
-| pi      | Pi             |
-| e       | Euler's constant |
-| x       | The variable x  |
-| t       | A time-based variable t |
-| +       | Addition       |
-| -       | Subtraction    |
-| *       | Multiplication |
-| /       | Division       |
-| ^       | Exponential    |
-| ( )     | Paranthesis    |
-| sin[^1] | Sin            |
-| cos[^1] | Cos            |
-| tan[^1] | Tan            |
-| log[^1] | Log            |
-
-[^1]: Must be followed by a sub-expression in paranthesis, i.e. `sin(x)`
+See [OPERATIONS.md](OPERATIONS.md) for valid operations.
 
 ### Controls
 

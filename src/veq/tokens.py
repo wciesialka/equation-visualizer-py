@@ -5,8 +5,8 @@
 
 import re
 from abc import ABC, abstractmethod
-from typing import List, Pattern
-from math import e, pi, sin, cos, tan, log
+from typing import Callable, Dict, List, Pattern
+from math import acos, acosh, asin, asinh, atan, atanh, cosh, degrees, e, fabs, fmod, pi, radians, sin, cos, sinh, tan, log, tanh
 
 class Token(ABC):
 
@@ -69,20 +69,41 @@ class ValueToken(Token):
     def __str__(self):
         return f"ValueToken({self.__value})"
 
-class PiToken(ValueToken):
+class TokenBuilder:
 
-    '''Token for the number pi.'''
+    '''Build tokens.'''
 
-    def __init__(self, stack: List):
-        super().__init__(stack, pi)
-
-class EulerToken(ValueToken):
-
-    '''Token for the number e.'''
+    TOKENS: Dict[str, Callable[[], Token]] = {}
 
     def __init__(self, stack: List):
-        super().__init__(stack, e)
+        self._stack = stack
 
+    def build_value(self, value: float) -> ValueToken:
+        '''Build a value token.'''
+        return ValueToken(self._stack, value)
+
+    def build_variable(self, name: str) -> VariableToken:
+        '''Build a variable token.'''
+        return VariableToken(self._stack, name)
+
+def add_builder(function_name:str, key: str):
+    '''This decorator allows us to dynamically add tokens to the TokenBuilder.
+
+    :param function_name: Name of the function to add.
+    :type function_name: str
+    :param key: What represents the function in an equation.
+    :type key: str'''
+
+    def decorate(cls):
+        def func(self, *args, **kwargs):
+            return cls(self._stack, *args, **kwargs)
+
+        setattr(TokenBuilder, function_name, func)
+        TokenBuilder.TOKENS[key] = function_name
+
+        return cls
+
+    return decorate
 class BinaryToken(Token):
 
     '''Binary Operation token.'''
@@ -100,6 +121,7 @@ class BinaryToken(Token):
         result = self.operation(a, b)
         self._stack.append(result)
 
+@add_builder("build_add", "+")
 class AddToken(BinaryToken):
 
     '''Addition token.'''
@@ -110,6 +132,7 @@ class AddToken(BinaryToken):
         '''Add a and b'''
         return a + b
 
+@add_builder("build_subtract", "-")
 class SubtractToken(BinaryToken):
 
     '''Subtraction token.'''
@@ -120,6 +143,7 @@ class SubtractToken(BinaryToken):
         '''Subtract a and'''
         return a - b
 
+@add_builder("build_multiply", "*")
 class MultiplyToken(BinaryToken):
 
     '''Multiplication token.'''
@@ -130,6 +154,7 @@ class MultiplyToken(BinaryToken):
         '''Multiply a and b'''
         return a * b
 
+@add_builder("build_divide", "/")
 class DivideToken(BinaryToken):
 
     '''Division token.'''
@@ -140,6 +165,17 @@ class DivideToken(BinaryToken):
         '''Divide a and b.'''
         return a / b
 
+@add_builder("build_modulo", "%")
+class ModuloToken(BinaryToken):
+
+    '''Modulo token.'''
+
+    PRECEDENCE = 2
+
+    def operation(self, a, b):
+        return fmod(a, b)
+
+@add_builder("build_power", "^")
 class PowerToken(BinaryToken):
 
     '''Exponation token.'''
@@ -165,6 +201,7 @@ class FunctionToken(Token):
         result = self.operation(a)
         self._stack.append(result)
 
+@add_builder("build_sin", "sin(")
 class SinToken(FunctionToken):
 
     '''Sine token.'''
@@ -175,6 +212,7 @@ class SinToken(FunctionToken):
         '''Run sin'''
         return sin(a)
 
+@add_builder("build_cos", "cos(")
 class CosToken(FunctionToken):
 
     '''Cosine token.'''
@@ -185,6 +223,7 @@ class CosToken(FunctionToken):
         '''Run cosine'''
         return cos(a)
 
+@add_builder("build_tan", "tan(")
 class TanToken(FunctionToken):
 
     '''Tangent token.'''
@@ -195,6 +234,7 @@ class TanToken(FunctionToken):
         '''Run tangent'''
         return tan(a)
 
+@add_builder("build_log", "log(")
 class LogToken(FunctionToken):
 
     '''Logarithm token.'''
@@ -202,69 +242,157 @@ class LogToken(FunctionToken):
     PRECEDENCE = 4
 
     def operation(self, a):
-        '''Run logarithm base 10.'''
+        '''Run natural logarithm.'''
         return log(a)
 
-class TokenBuilder:
+@add_builder("build_sinh", "sinh(")
+class SinhToken(FunctionToken):
 
-    '''Build tokens.'''
+    '''Hyperbolic Sine Token.'''
 
-    def __init__(self, stack: List):
-        self.__stack = stack
+    PRECEDENCE = 4
 
-    def build_value(self, value: float) -> ValueToken:
-        '''Build a value token.'''
-        return ValueToken(self.__stack, value)
+    def operation(self, a):
+        return sinh(a)
 
-    def build_add(self) -> AddToken:
-        '''Build an add token.'''
-        return AddToken(self.__stack)
+@add_builder("build_cosh", "cosh(")
+class CoshToken(FunctionToken):
 
-    def build_subtract(self) -> SubtractToken:
-        '''Build a subtract token.'''
-        return SubtractToken(self.__stack)
+    '''Hyperbolic Cosine Token.'''
 
-    def build_multiply(self) -> MultiplyToken:
-        '''Build a multiply token.'''
-        return MultiplyToken(self.__stack)
+    PRECEDENCE = 4
 
-    def build_divide(self) -> DivideToken:
-        '''Build a divide token.'''
-        return DivideToken(self.__stack)
+    def operation(self, a):
+        return cosh(a)
 
-    def build_power(self) -> PowerToken:
-        '''Build a power token.'''
-        return PowerToken(self.__stack)
+@add_builder("build_tanh", "tanh(")
+class TanhToken(FunctionToken):
 
-    def build_pi(self) -> PiToken:
-        '''Build a pi token.'''
-        return PiToken(self.__stack)
+    '''Hyperbolic Tangent Token.'''
 
-    def build_e(self) -> EulerToken:
-        '''Build an e token.'''
-        return EulerToken(self.__stack)
+    PRECEDENCE = 4
 
-    def build_sin(self) -> SinToken:
-        '''Build a sin token.'''
-        return SinToken(self.__stack)
+    def operation(self, a):
+        return tanh(a)
 
-    def build_cos(self) -> CosToken:
-        '''Build a cos token.'''
-        return CosToken(self.__stack)
+@add_builder("build_sign", "sign(")
+class SignToken(FunctionToken):
 
-    def build_tan(self) -> TanToken:
-        '''Build a tan token.'''
-        return TanToken(self.__stack)
+    '''Sign Token.'''
 
-    def build_log(self) -> LogToken:
-        '''Build a log token.'''
-        return LogToken(self.__stack)
+    PRECEDENCE = 4
 
-    def build_variable(self, name: str) -> VariableToken:
-        '''Build a variable token.'''
-        return VariableToken(self.__stack, name)
+    def operation(self, a):
+        if a < 0:
+            return -1
+        elif a > 0:
+            return 1
+        return 0
 
-TOKEN_REGEX:Pattern[str] = re.compile(r"\d+\.?\d*|\+|-|\*|/|\)|\^|tan\(|cos\(|sin\(|log\(|pi|e|x|t|\(")
+@add_builder("build_abs", "abs(")
+class AbsToken(FunctionToken):
+
+    '''Absolute Value token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return fabs(a)
+
+@add_builder("build_round", "round(")
+class RoundToken(FunctionToken):
+
+    '''Round Token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return round(a)
+
+@add_builder("build_rad", "rad(")
+class RadiansToken(FunctionToken):
+
+    '''Radian Conversion Token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return radians(a)
+
+@add_builder("build_deg", "deg(")
+class DegreesToken(FunctionToken):
+
+    '''Degrees Conversion Token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return degrees(a)
+
+@add_builder("build_acos", "acos(")
+class ArcCosToken(FunctionToken):
+
+    '''Arc Cosine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return acos(a)
+
+@add_builder("build_asin", "asin(")
+class ArcSinToken(FunctionToken):
+
+    '''Arc Sine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return asin(a)
+
+@add_builder("build_atan", "atan(")
+class ArcTanToken(FunctionToken):
+
+    '''Arc Tangent token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return atan(a)
+
+@add_builder("build_acosh", "acosh(")
+class ArcCosHToken(FunctionToken):
+
+    '''inverse hyperbolic cosine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return acosh(a)
+
+@add_builder("build_asinh", "asinh(")
+class ArcSinHToken(FunctionToken):
+
+    '''inverse hyperbolic sine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return asinh(a)
+
+@add_builder("build_atanh", "atanh(")
+class ArcTanHToken(FunctionToken):
+
+    '''inverse hyperbolic tangent token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return atanh(a)
+
+TOKEN_REGEX_STRING: str = r"\d+.?\d*|"
+TOKEN_REGEX_STRING += "|".join([re.escape(token) for token in TokenBuilder.TOKENS.keys()]) 
+TOKEN_REGEX_STRING += r"|\(|\)|[a-z]+"
+TOKEN_REGEX: Pattern[str] = re.compile(TOKEN_REGEX_STRING) 
 
 class TokenStream:
 
