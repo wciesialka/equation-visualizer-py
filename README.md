@@ -73,6 +73,8 @@ The following controls are supported:
 | + | Zoom in by decreasing domain and range. |
 | - | Zoom out by increasing domain and range. |
 | r | Reset domain and range. |
+| Left/Right Arrow | Shift domain left/right. |
+| Up/Down Arrow | Shift range up/down. |
 
 ## Documentation
 

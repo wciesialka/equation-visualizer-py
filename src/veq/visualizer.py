@@ -60,6 +60,16 @@ class Equation:
             self.domain[0] -= increase/2
             self.domain[1] += increase/2
 
+    def shift(self, shift_by: Tuple[float, float]):
+        '''Shift the domain and range of the equation.
+
+        :param shift_by: What values to adjust by.
+        :type shift_by: tuple(float, float)'''
+        self.domain[0] += shift_by[0]
+        self.domain[1] += shift_by[0]
+        self.range[0] += shift_by[1]
+        self.range[1] += shift_by[1]
+
 class Visualizer:
 
     '''Graphical visualization of an equation.
