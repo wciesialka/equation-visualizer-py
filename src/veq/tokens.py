@@ -6,7 +6,7 @@
 import re
 from abc import ABC, abstractmethod
 from typing import Callable, Dict, List, Pattern
-from math import acos, acosh, asin, asinh, atan, atanh, cosh, degrees, e, fmod, pi, radians, sin, cos, sinh, tan, log, tanh
+from math import acos, acosh, asin, asinh, atan, atanh, cosh, degrees, e, fabs, fmod, pi, radians, sin, cos, sinh, tan, log, tanh
 
 class Token(ABC):
 
@@ -288,6 +288,26 @@ class SignToken(FunctionToken):
         elif a > 0:
             return 1
         return 0
+
+@add_builder("build_abs", "abs(")
+class AbsToken(FunctionToken):
+
+    '''Absolute Value token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return fabs(a)
+
+@add_builder("build_round", "round(")
+class RoundToken(FunctionToken):
+
+    '''Round Token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return round(a)
 
 @add_builder("build_rad", "rad(")
 class RadiansToken(FunctionToken):
