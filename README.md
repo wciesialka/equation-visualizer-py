@@ -61,7 +61,7 @@ The following controls are supported:
 
 ## Documentation
 
-Documentation is supplied through Sphinx Auto-Doc and is available in [docs/build/html](docs/build/html).
+Documentation is supplied through Sphinx Auto-Doc and is available on [readthedocs](https://veq.readthedocs.io/en/latest/) or as raw HTML under [docs/build/html](docs/build/html).
 
 ## License
 
