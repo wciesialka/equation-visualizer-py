@@ -95,11 +95,10 @@ def add_builder(function_name:str, key: str):
     :type key: str'''
 
     def decorate(cls):
-        '''Internal decorator.'''
         def func(self, *args, **kwargs):
-            f'''Build an instance of the {cls.__name__} class.'''
             return cls(self._stack, *args, **kwargs)
 
+        func.__doc__ = f"Build an instance of the {cls.__name__} class."
         setattr(TokenBuilder, function_name, func)
         TokenBuilder.TOKENS[key] = function_name
 
