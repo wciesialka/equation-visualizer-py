@@ -55,17 +55,7 @@ class Calculator:
         :returns: List of tokens
         :rtype: list(Token)'''
 
-        lookup: Dict[str, Token] = {
-            "+":   self.__builder.build_add,
-            "-":   self.__builder.build_subtract,
-            "*":   self.__builder.build_multiply,
-            "/":   self.__builder.build_divide,
-            "^":   self.__builder.build_power,
-            "sin(": self.__builder.build_sin,
-            "cos(": self.__builder.build_cos,
-            "tan(": self.__builder.build_tan,
-            "log(": self.__builder.build_log,
-        }
+        lookup = TokenBuilder.TOKENS
 
         stack: List[Token] = []
 
@@ -73,7 +63,12 @@ class Calculator:
 
         for match in self.stream:
             if match in lookup:
-                token = lookup[match]()
+                # This is really wonky. Basically: Look up what the name of function is.
+                function_name = lookup[match]
+                # Get what that function is on the instance of our class.
+                build_function = self.__builder.__getattribute__(function_name)
+                # Execute that function.
+                token = build_function()
             elif match == '(':
                 self.infix_to_postfix()
                 continue
