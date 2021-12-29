@@ -66,8 +66,11 @@ def main():
                     # 61 = Plus. For some reason pygame.K_PLUS wasn't wanting to work
                     equation.zoom(-1)
                 elif event.key == pygame.K_r:
-                    equation.domain = domain.copy()
-                    equation.range = range_.copy()
+                    if event.mod & pygame.KMOD_SHIFT:
+                        visualizer.reset_t()
+                    else:
+                        equation.domain = domain.copy()
+                        equation.range = range_.copy()
                 elif event.key == pygame.K_UP:
                     equation.shift((0, 0.5))
                 elif event.key == pygame.K_DOWN:

@@ -152,6 +152,11 @@ class Visualizer:
         '''Bottom bound of the equation.'''
         return self.equation.range[0]
 
+    def reset_t(self):
+        '''Reset the internal t variable.'''
+        self.__last_render = 0
+        self.__t = 0
+
     def draw_equation(self):
         '''Plot the equation to the screen.'''
         render_start = time()
