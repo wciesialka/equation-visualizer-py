@@ -242,7 +242,7 @@ class LogToken(FunctionToken):
     PRECEDENCE = 4
 
     def operation(self, a):
-        '''Run logarithm base 10.'''
+        '''Run natural logarithm.'''
         return log(a)
 
 @add_builder("build_sinh", "sinh(")
