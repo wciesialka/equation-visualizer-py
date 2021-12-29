@@ -28,13 +28,21 @@ class Token(ABC):
         except NameError: # If value isn't set
             return -1
 
+    def __str__(self):
+        return self.__class__.__name__
+
 class VariableToken(Token):
 
     '''Variable token.'''
 
     def __init__(self, stack:List, name:str):
         super().__init__(stack)
-        self.name = name
+        self.__name = name
+
+    @property
+    def name(self) -> str:
+        '''Return the read-only name property.'''
+        return self.__name
 
     def execute(self, value: float):
         '''Push given value to top of stack.
@@ -42,6 +50,9 @@ class VariableToken(Token):
         :param value: What value to push.
         :type value: float'''
         self._stack.append(value)
+
+    def __str__(self):
+        return f"VariableToken({self.name})"
 
 class ValueToken(Token):
 
@@ -54,6 +65,9 @@ class ValueToken(Token):
     def execute(self):
         '''Push value to top of stack.'''
         self._stack.append(self.__value)
+    
+    def __str__(self):
+        return f"ValueToken({self.__value})"
 
 class PiToken(ValueToken):
 

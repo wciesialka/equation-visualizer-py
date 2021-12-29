@@ -29,6 +29,7 @@ def main():
 
     domain = [-1, 1]
     range_ = [-1, 1]
+    mouse_x, mouse_y = (0, 0)
 
     calculator = Calculator(args.equation)
 
@@ -62,7 +63,6 @@ def main():
                 if event.button == 1:
                     visualizer.save(event.pos)
             elif event.type == pygame.KEYUP:
-                logging.debug("Key pressed: %i", event.key)
                 if event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
                     equation.zoom(1)
                 elif event.key == pygame.K_PLUS or event.key == 61 or event.key == pygame.K_KP_PLUS:

@@ -190,7 +190,7 @@ class Visualizer:
         domain_text = f'Domain: [{self.left:1.2f}, {self.right:1.2f}]'
         range_text = f'Range: [{self.bottom:1.2f}, {self.top:1.2f}]'
         equation_text = f"Equation: {self.equation.calculator.stream}"
-        t_text = f"T: {self.__t:1.2f}"
+        t_text = f"t: {self.__t:1.2f}"
 
         domain_surface = self.__font.render(domain_text, True, (0, 0, 0), (255, 255, 255))
         range_surface = self.__font.render(range_text, True, (0, 0, 0), (255, 255, 255))
