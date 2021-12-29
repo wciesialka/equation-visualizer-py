@@ -1,5 +1,6 @@
 '''Containing module for the Calculator class.'''
 
+import logging
 from typing import List, Dict, Union
 from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
@@ -13,6 +14,17 @@ class CalculationError(Exception):
 
     def __str__(self):
         return f"Error in equation \"f(x) = {self.__expression}\""
+
+class VariableUndefinedError(Exception):
+
+    '''An exception that indicates the user used an undefined variable.'''
+
+    def __init__(self, variable: str):
+        self.__variable = variable
+        super().__init__(variable)
+
+    def __str__(self):
+        return f"Variable undefined: \"{self.__variable}\""
 
 class Calculator:
 
@@ -77,8 +89,12 @@ class Calculator:
                 token = self.__builder.build_e()
                 self.expression.append(token)
                 continue
-            else:
+            elif match.isalpha():
                 token = self.__builder.build_variable(name = match)
+                self.expression.append(token)
+                continue
+            else:
+                token = self.__builder.build_value(float(match))
                 self.expression.append(token)
                 continue
 
@@ -112,7 +128,7 @@ class Calculator:
                     if token.name in variables:
                         token.execute(variables[token.name])
                     else:
-                        raise RuntimeError(f"Variable undefined: \"{token.name}\"")
+                        raise VariableUndefinedError(token.name)
                 else:
                     token.execute()
         except:
