@@ -54,11 +54,8 @@ def main():
 
                 # If RMB is down...
                 if event.buttons[2] == 1:
-                    rel = [x/100 for x in event.rel]
-                    equation.domain[0] -= rel[0]
-                    equation.domain[1] -= rel[0]
-                    equation.range[0] += rel[1]
-                    equation.range[1] += rel[1]
+                    rel = (-event.rel[0]/100, event.rel[1]/100)
+                    equation.shift(rel)
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     visualizer.save(event.pos)
@@ -71,6 +68,14 @@ def main():
                 elif event.key == pygame.K_r:
                     equation.domain = domain.copy()
                     equation.range = range_.copy()
+                elif event.key == pygame.K_UP:
+                    equation.shift((0, 0.5))
+                elif event.key == pygame.K_DOWN:
+                    equation.shift((0, -0.5))
+                elif event.key == pygame.K_LEFT:
+                    equation.shift((-0.5, 0))
+                elif event.key == pygame.K_RIGHT:
+                    equation.shift((0.5, 0))
             elif event.type == pygame.ACTIVEEVENT:
                 focus = (event.gain == 1)
 
