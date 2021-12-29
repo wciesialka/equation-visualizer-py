@@ -61,7 +61,7 @@ The following controls are supported:
 
 ## Documentation
 
-Documentation is supplied through Sphinx Auto-Doc and is available on [readthedocs](https://veq.readthedocs.io/en/latest/).
+Documentation is supplied through Sphinx Auto-Doc and is available on [readthedocs](https://veq.readthedocs.io/en/latest/index.html).
 
 ## License
 
