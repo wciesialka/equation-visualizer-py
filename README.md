@@ -72,7 +72,8 @@ The following controls are supported:
 | Mouse Wheel Down | Zoom out by increasing domain and range. |
 | + | Zoom in by decreasing domain and range. |
 | - | Zoom out by increasing domain and range. |
-| r | Reset domain and range. |
+| R | Reset domain and range. |
+| SHIFT-R | Reset variable t. |
 | Left/Right Arrow | Shift domain left/right. |
 | Up/Down Arrow | Shift range up/down. |
 
