@@ -32,6 +32,10 @@ class VariableToken(Token):
 
     '''Variable token.'''
 
+    def __init__(self, stack:List, name:str):
+        super().__init__(stack)
+        self.name = name
+
     def execute(self, value: float):
         '''Push given value to top of stack.
 
@@ -192,61 +196,61 @@ class TokenBuilder:
     '''Build tokens.'''
 
     def __init__(self, stack: List):
-        self._stack = stack
+        self.__stack = stack
 
-    def build_value(self, value: float):
+    def build_value(self, value: float) -> ValueToken:
         '''Build a value token.'''
-        return ValueToken(self._stack, value)
+        return ValueToken(self.__stack, value)
 
-    def build_add(self):
+    def build_add(self) -> AddToken:
         '''Build an add token.'''
-        return AddToken(self._stack)
+        return AddToken(self.__stack)
 
-    def build_subtract(self):
+    def build_subtract(self) -> SubtractToken:
         '''Build a subtract token.'''
-        return SubtractToken(self._stack)
+        return SubtractToken(self.__stack)
 
-    def build_multiply(self):
+    def build_multiply(self) -> MultiplyToken:
         '''Build a multiply token.'''
-        return MultiplyToken(self._stack)
+        return MultiplyToken(self.__stack)
 
-    def build_divide(self):
+    def build_divide(self) -> DivideToken:
         '''Build a divide token.'''
-        return DivideToken(self._stack)
+        return DivideToken(self.__stack)
 
-    def build_power(self):
+    def build_power(self) -> PowerToken:
         '''Build a power token.'''
-        return PowerToken(self._stack)
+        return PowerToken(self.__stack)
 
-    def build_pi(self):
+    def build_pi(self) -> PiToken:
         '''Build a pi token.'''
-        return PiToken(self._stack)
+        return PiToken(self.__stack)
 
-    def build_e(self):
+    def build_e(self) -> EulerToken:
         '''Build an e token.'''
-        return EulerToken(self._stack)
+        return EulerToken(self.__stack)
 
-    def build_sin(self):
+    def build_sin(self) -> SinToken:
         '''Build a sin token.'''
-        return SinToken(self._stack)
+        return SinToken(self.__stack)
 
-    def build_cos(self):
+    def build_cos(self) -> CosToken:
         '''Build a cos token.'''
-        return CosToken(self._stack)
+        return CosToken(self.__stack)
 
-    def build_tan(self):
+    def build_tan(self) -> TanToken:
         '''Build a tan token.'''
-        return TanToken(self._stack)
+        return TanToken(self.__stack)
 
-    def build_log(self):
+    def build_log(self) -> LogToken:
         '''Build a log token.'''
-        return LogToken(self._stack)
+        return LogToken(self.__stack)
 
-    def build_x(self):
+    def build_variable(self, name: str) -> VariableToken:
         '''Build a variable token.'''
-        return VariableToken(self._stack)
+        return VariableToken(self.__stack, name)
 
-TOKEN_REGEX:Pattern[str] = re.compile(r"\d+\.?\d*|\+|-|\*|/|\)|\^|tan\(|cos\(|sin\(|log\(|pi|e|x|\(")
+TOKEN_REGEX:Pattern[str] = re.compile(r"\d+\.?\d*|\+|-|\*|/|\)|\^|tan\(|cos\(|sin\(|log\(|pi|e|x|t|\(")
 
 class TokenStream:
 

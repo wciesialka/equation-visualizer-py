@@ -2,6 +2,7 @@
 
 import logging
 from typing import Tuple, List, Union
+from time import time
 import pygame
 from veq.calculator import CalculationError, Calculator
 
@@ -93,6 +94,9 @@ class Visualizer:
         self.color = color
         self.__saved = None
 
+        self.__t = 0
+        self.__last_render = 0
+
     @property
     def left(self):
         '''Left bound of the equation.'''
@@ -112,7 +116,7 @@ class Visualizer:
              calculation for that x value.
         :rtype: float or None'''
         try:
-            y = self.equation.calculator.calculate(x)
+            y = self.equation.calculator.calculate(x = x, t = self.__t)
         except CalculationError:
             return None
         else:
@@ -140,6 +144,7 @@ class Visualizer:
 
     def draw_equation(self):
         '''Plot the equation to the screen.'''
+        render_start = time()
 
         dx: float = (self.right-self.left)/self.width
 
@@ -172,20 +177,32 @@ class Visualizer:
                     logging.debug(points)
                     raise ex
 
+        current_time = time()
+        if self.__last_render == 0:
+            self.__t = current_time - render_start
+        else:
+            self.__t += current_time - self.__last_render
+        self.__last_render = current_time
+
     def draw_text(self):
         '''Draw text onto the screen.'''
 
         domain_text = f'Domain: [{self.left:1.2f}, {self.right:1.2f}]'
         range_text = f'Range: [{self.bottom:1.2f}, {self.top:1.2f}]'
         equation_text = f"Equation: {self.equation.calculator.stream}"
+        t_text = f"T: {self.__t:1.2f}"
 
         domain_surface = self.__font.render(domain_text, True, (0, 0, 0), (255, 255, 255))
         range_surface = self.__font.render(range_text, True, (0, 0, 0), (255, 255, 255))
         equation_surface = self.__font.render(equation_text, True, (0, 0, 0), (255, 255, 255))
 
+        t_surface = self.__font.render(t_text, True, (0, 0, 0), (255, 255, 255))
+        t_width = t_surface.get_size()[0]
+
         self.screen.blit(domain_surface, (0, 12))
         self.screen.blit(range_surface, (0, 24))
         self.screen.blit(equation_surface, (0, 0))
+        self.screen.blit(t_surface, (self.width - t_width, 0))
 
     def __domain_range(self, step):
         x = (self.left // step) * step
@@ -270,11 +287,7 @@ class Visualizer:
         :type mouse_pos: tuple(int, int)'''
         mouse_x, mouse_y = mouse_pos
         x = remap(mouse_x, (0, self.width), (self.left, self.right))
-        y = self.execute(x)
-        if y is None:
-            self.__saved = None
-        else:
-            self.__saved = (x, y)
+        self.__saved = x
 
     def on_screen(self, pixel: Tuple[int, int]) -> bool:
         '''Returns whether the given pixel is within the bounds of the screen.
@@ -290,11 +303,13 @@ class Visualizer:
         color = (25, 175, 25)
 
         if not self.__saved is None:
-            x, y = self.__saved
-            screen_x = remap(x, (self.left, self.right), (0, self.width))
-            screen_y = remap(y, (self.bottom, self.top), (self.height, 0))
-            saved_text = f"Saved: ({x:.2f}, {y:.2f})"
-            text_surface = self.__font.render(saved_text, True, (0, 0, 0), (255, 255, 255))
-            self.screen.blit(text_surface, (0, 36))
-            if self.on_screen((screen_x, screen_y)):
-                pygame.draw.circle(self.screen, color, (screen_x, screen_y), 4, width=1)
+            x = self.__saved
+            y = self.execute(x)
+            if not y is None:
+                screen_x = remap(x, (self.left, self.right), (0, self.width))
+                screen_y = remap(y, (self.bottom, self.top), (self.height, 0))
+                saved_text = f"Saved: ({x:.2f}, {y:.2f})"
+                text_surface = self.__font.render(saved_text, True, (0, 0, 0), (255, 255, 255))
+                self.screen.blit(text_surface, (0, 36))
+                if self.on_screen((screen_x, screen_y)):
+                    pygame.draw.circle(self.screen, color, (screen_x, screen_y), 4, width=1)

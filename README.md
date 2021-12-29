@@ -46,6 +46,7 @@ The following operations are supported:
 | pi      | Pi             |
 | e       | Euler's constant |
 | x       | The variable x  |
+| t       | A time-based variable t |
 | +       | Addition       |
 | -       | Subtraction    |
 | *       | Multiplication |
