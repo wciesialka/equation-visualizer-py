@@ -6,7 +6,7 @@
 import re
 from abc import ABC, abstractmethod
 from typing import Callable, Dict, List, Pattern
-from math import acos, acosh, asin, asinh, atan, atanh, cosh, degrees, e, pi, radians, sin, cos, sinh, tan, log, tanh
+from math import acos, acosh, asin, asinh, atan, atanh, cosh, degrees, e, fmod, pi, radians, sin, cos, sinh, tan, log, tanh
 
 class Token(ABC):
 
@@ -173,7 +173,7 @@ class ModuloToken(BinaryToken):
     PRECEDENCE = 2
 
     def operation(self, a, b):
-        return a % b
+        return fmod(a, b)
 
 @add_builder("build_power", "^")
 class PowerToken(BinaryToken):
