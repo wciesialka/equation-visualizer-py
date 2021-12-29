@@ -62,10 +62,6 @@ class Calculator:
         for match in self.stream:
             if match in lookup:
                 token = lookup[match]()
-            elif match == "x":
-                token = self.__builder.build_x()
-                self.expression.append(token)
-                continue
             elif match == '(':
                 self.infix_to_postfix()
                 continue
@@ -82,14 +78,9 @@ class Calculator:
                 self.expression.append(token)
                 continue
             else:
-                try:
-                    x = float(match)
-                except:
-                    raise TypeError(f"Invalid Token \"{match}\"")
-                else:
-                    token = self.__builder.build_value(x)
-                    self.expression.append(token)
-                    continue
+                token = self.__builder.build_variable(name = match)
+                self.expression.append(token)
+                continue
 
             if isinstance(token, FunctionToken):
                 self.infix_to_postfix()
@@ -103,11 +94,11 @@ class Calculator:
         while len(stack) > 0:
             self.expression.append(stack.pop())
 
-    def calculate(self, x: float) -> float:
+    def calculate(self, **variables) -> float:
         '''Calculate the Calculator's expression.
 
-        :param x: Value to substitute for x in the expression.
-        :type x: float
+        :param variables: Values to substitute for x in the expression.
+        :type variables: dict
         :returns: The result of the equation.
         :rtype: float'''
         if len(self.expression) == 0:
@@ -118,7 +109,10 @@ class Calculator:
         try:
             for token in self.expression:
                 if isinstance(token, VariableToken):
-                    token.execute(x)
+                    if token.name in variables:
+                        token.execute(variables[token.name])
+                    else:
+                        raise RuntimeError(f"Variable undefined: \"{token.name}\"")
                 else:
                     token.execute()
         except:

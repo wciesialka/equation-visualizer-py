@@ -10,7 +10,7 @@ LONG_DESCRIPTION = (THIS_DIRECTORY / "README.md").read_text()
 
 CONTENT = {
     "name": "veq",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "author": "Willow Ciesialka",
     "author_email": "wciesialka@gmail.com",
     "url": "https://github.com/wciesialka/riemann-sum-py",
