@@ -6,7 +6,7 @@
 import re
 from abc import ABC, abstractmethod
 from typing import Callable, Dict, List, Pattern
-from math import cosh, degrees, e, pi, radians, sin, cos, sinh, tan, log, tanh
+from math import acos, acosh, asin, asinh, atan, atanh, cosh, degrees, e, pi, radians, sin, cos, sinh, tan, log, tanh
 
 class Token(ABC):
 
@@ -309,9 +309,69 @@ class DegreesToken(FunctionToken):
     def operation(self, a):
         return degrees(a)
 
+@add_builder("build_acos", "acos(")
+class ArcCosToken(FunctionToken):
+
+    '''Arc Cosine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return acos(a)
+
+@add_builder("build_asin", "asin(")
+class ArcSinToken(FunctionToken):
+
+    '''Arc Sine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return asin(a)
+
+@add_builder("build_atan", "atan(")
+class ArcTanToken(FunctionToken):
+
+    '''Arc Tangent token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return atan(a)
+
+@add_builder("build_acosh", "acosh(")
+class ArcCosHToken(FunctionToken):
+
+    '''inverse hyperbolic cosine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return acosh(a)
+
+@add_builder("build_asinh", "asinh(")
+class ArcSinHToken(FunctionToken):
+
+    '''inverse hyperbolic sine token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return asinh(a)
+
+@add_builder("build_atanh", "atanh(")
+class ArcTanHToken(FunctionToken):
+
+    '''inverse hyperbolic tangent token.'''
+
+    PRECEDENCE = 4
+
+    def operation(self, a):
+        return atanh(a)
+
 TOKEN_REGEX_STRING: str = r"\d+.?\d*|"
 TOKEN_REGEX_STRING += "|".join([re.escape(token) for token in TokenBuilder.TOKENS.keys()]) 
-TOKEN_REGEX_STRING += r"|\(|\)|\w+"
+TOKEN_REGEX_STRING += r"|\(|\)|[a-z]+"
 TOKEN_REGEX: Pattern[str] = re.compile(TOKEN_REGEX_STRING) 
 
 class TokenStream:
