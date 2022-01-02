@@ -5,6 +5,16 @@ from typing import List, Dict, Union
 from math import pi, e
 from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
+class ParsingError(Exception):
+
+    '''An exception that indicates there was an error in parsing the user's equation.'''
+
+    def __init__(self):
+        super().__init__()
+
+    def __str__(self):
+        return f"Error in parsing equation."
+
 class CalculationError(Exception):
 
     '''An exception that indicates there was an error in calculating the user's equation.'''
@@ -66,6 +76,7 @@ class Calculator:
 
         stack: List[Token] = []
 
+        value_is_placeable: bool = True
         token: Token = None
 
         for match in self.stream:
@@ -73,9 +84,10 @@ class Calculator:
                 # This is really wonky. Basically: Look up what the name of function is.
                 function_name = lookup[match]
                 # Get the function with that name from the instance of our class.
-                build_function = self.__builder.__getattribute__(function_name)
+                build_function = getattr(self.__builder, function_name)
                 # Execute that function.
                 token = build_function()
+                value_is_placeable = True
             elif match == '(':
                 self.infix_to_postfix()
                 continue
@@ -84,17 +96,24 @@ class Calculator:
                     self.expression.append(stack.pop())
                 return
             elif match.isalpha():
-                token = self.__builder.build_variable(name = match)
-                self.expression.append(token)
-                continue
+                if value_is_placeable:
+                    token = self.__builder.build_variable(name = match)
+                    self.expression.append(token)
+                    value_is_placeable = False
+                    continue
+                raise ParsingError()
             else:
-                token = self.__builder.build_value(value = float(match))
-                self.expression.append(token)
-                continue
+                if value_is_placeable:
+                    token = self.__builder.build_value(value = float(match))
+                    self.expression.append(token)
+                    value_is_placeable = False
+                    continue
+                raise ParsingError()
 
             if isinstance(token, FunctionToken):
                 self.infix_to_postfix()
                 self.expression.append(token)
+                value_is_placeable = False
                 continue
 
             while len(stack) > 0 and stack[-1].precedence >= token.precedence:
@@ -131,6 +150,10 @@ class Calculator:
             pass
         else:
             if len(self.stack) > 0:
+                while len(self.stack) > 1:
+                    a = self.stack.pop()
+                    b = self.stack.pop()
+                    self.stack.append(a+b)
                 result = self.stack[-1]
                 if isinstance(result, (float, int)):
                     return result

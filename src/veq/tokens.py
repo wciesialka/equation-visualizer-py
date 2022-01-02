@@ -132,18 +132,6 @@ class AddToken(BinaryToken):
     def operation(self, a, b):
         '''Add a and b'''
         return a + b
-
-@add_builder("build_subtract", "-")
-class SubtractToken(BinaryToken):
-
-    '''Subtraction token.'''
-
-    PRECEDENCE = 1
-
-    def operation(self, a, b):
-        '''Subtract a and'''
-        return a - b
-
 @add_builder("build_multiply", "*")
 class MultiplyToken(BinaryToken):
 
@@ -186,6 +174,31 @@ class PowerToken(BinaryToken):
     def operation(self, a, b):
         '''Exponate a to the power of b'''
         return a ** b
+
+
+class UnaryToken(Token):
+    '''Token representing a unary operation.'''
+
+    @abstractmethod
+    def operation(self, a):
+        pass
+
+    def execute(self):
+        '''Pop an item from the stack, run a function on it,\
+            and push the result to the stack.'''
+        a = self._stack.pop()
+        result = self.operation(a)
+        self._stack.append(result)
+
+@add_builder("build_negate", "-")
+class NegateToken(UnaryToken):
+
+    PRECEDENCE = 5
+
+    '''Negation token.'''
+
+    def operation(self, a):
+        return -a
 
 class FunctionToken(Token):
 
