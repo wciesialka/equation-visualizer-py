@@ -100,7 +100,9 @@ def add_builder(function_name:str, key: str):
 
         func.__doc__ = f"Build an instance of the {cls.__name__} class."
         setattr(TokenBuilder, function_name, func)
-        TokenBuilder.TOKENS[key] = function_name
+
+        if key:
+            TokenBuilder.TOKENS[key] = function_name
 
         return cls
 
@@ -132,6 +134,18 @@ class AddToken(BinaryToken):
     def operation(self, a, b):
         '''Add a and b'''
         return a + b
+
+@add_builder("build_subtract", None)
+class SubtractToken(BinaryToken):
+
+    '''Addition token.'''
+
+    PRECEDENCE = 1
+
+    def operation(self, a, b):
+        '''Subtract a and b'''
+        return a - b
+
 @add_builder("build_multiply", "*")
 class MultiplyToken(BinaryToken):
 
@@ -190,7 +204,7 @@ class UnaryToken(Token):
         result = self.operation(a)
         self._stack.append(result)
 
-@add_builder("build_negate", "-")
+@add_builder("build_negate", None)
 class NegateToken(UnaryToken):
 
     PRECEDENCE = 5
@@ -403,7 +417,7 @@ class ArcTanHToken(FunctionToken):
     def operation(self, a):
         return atanh(a)
 
-TOKEN_REGEX_STRING: str = r"\d+\.?\d*|"
+TOKEN_REGEX_STRING: str = r"\d+\.?\d*|-|"
 TOKEN_REGEX_STRING += "|".join([re.escape(token) for token in TokenBuilder.TOKENS.keys()]) 
 TOKEN_REGEX_STRING += r"|\(|\)|[a-z]+"
 TOKEN_REGEX: Pattern[str] = re.compile(TOKEN_REGEX_STRING) 
