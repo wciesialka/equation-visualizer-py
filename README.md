@@ -20,18 +20,25 @@ It is recommended you use the most recent stable version of Python. This project
 Running the application can be done through the console script entry point `veq` or through `python3 -m veq`. The application takes the following command-line arguments:
 
 ```
-usage: veq [-h] [-d] equation
+usage: veq [-h] [--debug] [-s n] [-a] [-p PRECISION] [-d DOMAIN] [-r RANGE]
+           equation
 
 Visualize an equation.
 
 positional arguments:
-  equation     Equation to plot.
+  equation              Equation to plot.
 
 optional arguments:
-  -h, --help   show this help message and exit
-  -d, --debug  Enable debug logging.
-  -s n, --step n  Enable gridlines with step n
-  -a, --noaxis    Disable axis.
+  -h, --help            show this help message and exit
+  --debug               Enable debug logging.
+  -s n, --step n        Enable gridlines with step n
+  -a, --noaxis          Disable axis.
+  -p PRECISION, --precision PRECISION
+                        Number precision for text formatting.
+  -d DOMAIN, --domain DOMAIN
+                        Initial domain.
+  -r RANGE, --range RANGE
+                        Initial range.
 ```
 
 ## Features
