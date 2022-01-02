@@ -95,7 +95,7 @@ class Visualizer:
     :type bottom: float'''
 
     def __init__(self, equation: Equation, screen: pygame.Surface, *,\
-         color: Tuple[int, int, int] = (0, 0, 0)):
+        color: Tuple[int, int, int] = (0, 0, 0), precision = 2):
 
         pygame.font.init()
         self.__font = pygame.font.SysFont("Courier New", 12)
@@ -106,6 +106,7 @@ class Visualizer:
 
         self.__t = 0
         self.__last_render = 0
+        self.precision = precision
 
     @property
     def left(self):
@@ -152,6 +153,38 @@ class Visualizer:
         '''Bottom bound of the equation.'''
         return self.equation.range[0]
 
+    @property
+    def precision(self):
+        '''Precision of numbers in text format.'''
+        return self.__precision
+
+    @property
+    def dx(self) -> float:
+        '''Change of x in pixels.'''
+        return (self.right-self.left)/self.width
+
+    @precision.setter
+    def precision(self, new_precision: int):
+        '''Force precision on text formatted.
+
+        :param new_precision: New precision to be forced.
+        :type new_precision: int
+        :raises TypeError: Raises TypeError if new_precision is not castable to int.
+        :raises ValueError: Raises ValueError if new_precision is less than zero.'''
+        try:
+            new_precision = int(new_precision)
+        except (TypeError, ValueError):
+            raise TypeError(f'Expected type int to force_precision, not type {new_precision.__class__.__name__}.')
+        if new_precision < 0:
+            raise ValueError(f"Precision must be greater than or equal to zero, not {new_precision}.")
+        self.__precision = new_precision
+
+    def __format_text(self, text: str, *values) -> str:
+        '''Format text with floating point numbers to the correct level of precision.'''
+        f_string = f"{{:0.{self.precision}f}}"
+
+        return text.format(*[f_string.format(x) for x in values])
+
     def reset_t(self):
         '''Reset the internal t variable.'''
         self.__last_render = 0
@@ -161,13 +194,11 @@ class Visualizer:
         '''Plot the equation to the screen.'''
         render_start = time()
 
-        dx: float = (self.right-self.left)/self.width
-
         list_of_points = []
         points: List[Tuple[int, float]] = []
         for i in range(0, self.width):
             # Get X and Y
-            x = self.left + (dx*i)
+            x = self.left + (self.dx*i)
             y = self.execute(x)
             if y is None:
                 continue
@@ -202,10 +233,10 @@ class Visualizer:
     def draw_text(self):
         '''Draw text onto the screen.'''
 
-        domain_text = f'Domain: [{self.left:1.2f}, {self.right:1.2f}]'
-        range_text = f'Range: [{self.bottom:1.2f}, {self.top:1.2f}]'
+        domain_text = self.__format_text("Domain: [{}, {}]", self.left, self.right)
+        range_text = self.__format_text("Range: [{}, {}]", self.bottom, self.top)
         equation_text = f"Equation: {self.equation.calculator.stream}"
-        t_text = f"t: {self.__t:1.2f}"
+        t_text = self.__format_text("t: {}", self.__t)
 
         domain_surface = self.__font.render(domain_text, True, (0, 0, 0), (255, 255, 255))
         range_surface = self.__font.render(range_text, True, (0, 0, 0), (255, 255, 255))
@@ -246,7 +277,7 @@ class Visualizer:
             step_str = str(step)
             step_precision = len(step_str[step_str.index('.')+1:])
 
-        text_format = lambda x: str(round(x, step_precision))
+        text_format = lambda x: f"{{:.{step_precision}f}}".format(x)
 
         grid_color = (200, 200, 200)
         text_color = (100, 100, 100)
@@ -289,7 +320,7 @@ class Visualizer:
         y = self.execute(x)
         if not y is None:
             screen_y = remap(y, (self.bottom, self.top), (self.height, 0))
-            location_text = f"Location: ({x:.2f}, {y:.2f})"
+            location_text = self.__format_text("Location: ({}, {})", x, y)
 
             pygame.draw.circle(self.screen, color, (mouse_x, screen_y), 5, width=2)
             text_surface = self.__font.render(location_text, True, (0, 0, 0), (255, 255, 255))
@@ -323,7 +354,7 @@ class Visualizer:
             if not y is None:
                 screen_x = remap(x, (self.left, self.right), (0, self.width))
                 screen_y = remap(y, (self.bottom, self.top), (self.height, 0))
-                saved_text = f"Saved: ({x:.2f}, {y:.2f})"
+                saved_text = self.__format_text("Saved: ({}, {})", x, y)
                 text_surface = self.__font.render(saved_text, True, (0, 0, 0), (255, 255, 255))
                 self.screen.blit(text_surface, (0, 36))
                 if self.on_screen((screen_x, screen_y)):
