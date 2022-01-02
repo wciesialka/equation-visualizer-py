@@ -20,6 +20,16 @@ The following variables are supported:
 
 ## Operations
 
+
+### Unary Operations
+
+The following unary operations are supported:
+
+| symbol | operation |
+| ------ | --------- |
+| -      | Negation[^negation]  |
+
+[^negation]: Also works as subtraction.
 ### Binary Operations
 
 The following binary operations are supported:
@@ -27,7 +37,6 @@ The following binary operations are supported:
 | symbol  | operation      |
 | ------- | -------------- |
 | +       | Addition       |
-| -       | Subtraction    |
 | *       | Multiplication |
 | /       | Division       |
 | ^       | Exponentiation    |
