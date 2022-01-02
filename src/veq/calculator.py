@@ -3,7 +3,7 @@
 import logging
 from typing import List, Dict, Union
 from math import pi, e
-from veq.tokens import TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
+from veq.tokens import BinaryToken, TokenBuilder, Token, TokenStream, VariableToken, FunctionToken
 
 class ParsingError(Exception):
 
@@ -77,6 +77,7 @@ class Calculator:
         stack: List[Token] = []
 
         value_is_placeable: bool = True
+        last_token = None
         token: Token = None
 
         for match in self.stream:
@@ -87,6 +88,15 @@ class Calculator:
                 build_function = getattr(self.__builder, function_name)
                 # Execute that function.
                 token = build_function()
+                value_is_placeable = True
+            elif match == '-':
+                if last_token:
+                    if isinstance(last_token, BinaryToken):
+                        token = self.__builder.build_negate()
+                    else:
+                        token = self.__builder.build_subtract()
+                else:
+                    token = self.__builder.build_negate()
                 value_is_placeable = True
             elif match == '(':
                 self.infix_to_postfix()
@@ -100,6 +110,7 @@ class Calculator:
                     token = self.__builder.build_variable(name = match)
                     self.expression.append(token)
                     value_is_placeable = False
+                    last_token = token
                     continue
                 raise ParsingError()
             else:
@@ -107,8 +118,11 @@ class Calculator:
                     token = self.__builder.build_value(value = float(match))
                     self.expression.append(token)
                     value_is_placeable = False
+                    last_token = token
                     continue
                 raise ParsingError()
+
+            last_token = token
 
             if isinstance(token, FunctionToken):
                 self.infix_to_postfix()
