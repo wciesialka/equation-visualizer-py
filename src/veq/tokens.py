@@ -390,7 +390,7 @@ class ArcTanHToken(FunctionToken):
     def operation(self, a):
         return atanh(a)
 
-TOKEN_REGEX_STRING: str = r"-?\d+\.?\d*|"
+TOKEN_REGEX_STRING: str = r"\d+\.?\d*|"
 TOKEN_REGEX_STRING += "|".join([re.escape(token) for token in TokenBuilder.TOKENS.keys()]) 
 TOKEN_REGEX_STRING += r"|\(|\)|[a-z]+"
 TOKEN_REGEX: Pattern[str] = re.compile(TOKEN_REGEX_STRING) 
