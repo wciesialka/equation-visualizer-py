@@ -80,8 +80,9 @@ def main():
 
                 # If RMB is down...
                 if event.buttons[2] == 1:
-                    rel = (-event.rel[0]/100, event.rel[1]/100)
-                    equation.shift(rel)
+                    move_x = -event.rel[0] * visualizer.dx
+                    move_y = event.rel[1] * visualizer.dx
+                    equation.shift((move_x, move_y))
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     visualizer.save(event.pos)

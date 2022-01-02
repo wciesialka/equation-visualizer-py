@@ -158,6 +158,11 @@ class Visualizer:
         '''Precision of numbers in text format.'''
         return self.__precision
 
+    @property
+    def dx(self) -> float:
+        '''Change of x in pixels.'''
+        return (self.right-self.left)/self.width
+
     @precision.setter
     def precision(self, new_precision: int):
         '''Force precision on text formatted.
@@ -189,13 +194,11 @@ class Visualizer:
         '''Plot the equation to the screen.'''
         render_start = time()
 
-        dx: float = (self.right-self.left)/self.width
-
         list_of_points = []
         points: List[Tuple[int, float]] = []
         for i in range(0, self.width):
             # Get X and Y
-            x = self.left + (dx*i)
+            x = self.left + (self.dx*i)
             y = self.execute(x)
             if y is None:
                 continue
