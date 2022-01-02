@@ -6,11 +6,24 @@ import pygame
 from veq.calculator import Calculator
 from veq.visualizer import Equation, Visualizer
 
+class PrecisionAction(argparse.Action):
+
+    def __call__(self, parser, namespace, values, option_string = ...) -> None:
+        if values < 0:
+            parser.error("Minimum precision is zero.")
+
+        setattr(namespace, self.dest, values)
+
+class IntervalAction(argparse.Action):
+
+    def __call__(self, parser, namespace, values, option_string = ...) -> None:
+        return super().__call__(parser, namespace, values, option_string=option_string)
+
 def parse_args() -> argparse.Namespace:
     '''Parse command line arguments.
 
     :returns: Parsed arguments.
-    :rtype; argparse.Namespace'''
+    :rtype: argparse.Namespace'''
     parser = argparse.ArgumentParser("veq", description="Visualize an equation.")
     parser.add_argument("equation", type=str.lower, help="Equation to plot.")
     parser.add_argument("-d", "--debug", dest="level", action="store_const",\
@@ -18,6 +31,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("-s", "--step", metavar='n', type=float, default=None,\
          help="Enable gridlines with step n")
     parser.add_argument("-a", "--noaxis", dest="axis", action="store_false", help="Disable axis.")
+    parser.add_argument("-p", "--precision", type=int, default=2, action=PrecisionAction, help="Number precision for text formatting.")
 
     return parser.parse_args()
 
@@ -35,11 +49,11 @@ def main():
 
     pygame.init()
 
-    screen = pygame.display.set_mode([900, 900])
+    screen = pygame.display.set_mode([900, 900], pygame.RESIZABLE)
     pygame.display.set_caption('veq')
 
     equation = Equation(calculator, domain.copy(), range_.copy())
-    visualizer = Visualizer(equation, screen)
+    visualizer = Visualizer(equation, screen, precision=args.precision)
 
     running = True
     while running: 
