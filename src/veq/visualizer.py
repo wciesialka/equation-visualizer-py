@@ -192,26 +192,36 @@ class Visualizer:
 
     def draw_equation(self):
         '''Plot the equation to the screen.'''
+        outside_range = False
         render_start = time()
 
         list_of_points = []
         points: List[Tuple[int, float]] = []
         for i in range(0, self.width):
             # Get X and Y
-            x = self.left + (self.dx*i)
+            x = remap(i, (0, self.width), (self.left, self.right))
             y = self.execute(x)
             if y is None:
-                continue
+                list_of_points.append(points)
+                points = []
             else:
                 screen_y = remap(y, (self.bottom, self.top), (self.height, 0))
 
-                # If considerably enough on screen...
-                if abs(screen_y) > self.height * 4:
-                    list_of_points.append(points)
-                    points = []
-
-                point: Tuple[int, float] = (i, screen_y)
-                points.append(point)
+                if screen_y > self.height or screen_y < 0:
+                    if not outside_range:
+                        if screen_y > self.height:
+                            screen_y = self.height
+                        else:
+                            screen_y = 0
+                        points.append((i, screen_y))
+                    else:
+                        list_of_points.append(points)
+                        points = []
+                    outside_range = True
+                else:
+                    outside_range = False
+                    point: Tuple[int, float] = (i, screen_y)
+                    points.append(point)
 
         list_of_points.append(points)
 
@@ -221,6 +231,12 @@ class Visualizer:
                     pygame.draw.lines(self.screen, self.color, False, points, 1)
                 except Exception as ex:
                     logging.debug(points)
+                    raise ex
+            elif len(points) == 1:
+                try:
+                    self.screen.set_at([round(x) for x in points[0]], self.color)
+                except Exception as ex:
+                    logging.debug("Error encountered rendering points %s.", points[0])
                     raise ex
 
         current_time = time()
