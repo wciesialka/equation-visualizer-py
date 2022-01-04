@@ -207,7 +207,7 @@ class Visualizer:
             else:
                 screen_y = remap(y, (self.bottom, self.top), (self.height, 0))
 
-                if screen_y > self.height or screen_y < 0:
+                if screen_y > self.height*2 or screen_y < -self.height:
                     if not outside_range:
                         if screen_y > self.height:
                             screen_y = self.height
