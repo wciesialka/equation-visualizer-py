@@ -13,7 +13,7 @@ CONTENT = {
     "version": "1.3.9.1",
     "author": "Willow Ciesialka",
     "author_email": "wciesialka@gmail.com",
-    "url": "https://github.com/wciesialka/riemann-sum-py",
+    "url": "https://github.com/wciesialka/veq",
     "description": "Equation visualizer.",
     "long_description": LONG_DESCRIPTION,
     "long_description_content_type": "text/markdown",
